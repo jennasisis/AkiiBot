@@ -1,6 +1,6 @@
 {
   "name": "akiibot",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A bot made by Gallium#1327, but also a bot used and designed just for Akii#2111's server's purposes, then further developed for public use.",
   "main": "bot.js",
   "dependencies": {
