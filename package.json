@@ -1,0 +1,23 @@
+{
+  "name": "akiibot",
+  "version": "0.0.4",
+  "description": "A bot made by Gallium#1327, but also a bot used and designed just for Akii#2111's server's purposes, then further developed for public use.",
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^11.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jennasisis/AkiiBot.git"
+  },
+  "author": "Gallium#1327, Akii#2111",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jennasisis/AkiiBot/issues"
+  },
+  "homepage": "https://github.com/jennasisis/AkiiBot#readme"
+}
