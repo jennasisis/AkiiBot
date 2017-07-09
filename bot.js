@@ -460,4 +460,4 @@ if (message.content === (prefix + 'commend')) {
 });
 
 //Token
-client.login("MzIzMjEzNTUyNjk1NTA4OTkz.DEP-7Q.KYIutBUcZftWWoFWBKiDdTbq3-I");
+client.login("lmao");
