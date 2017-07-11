@@ -2,9 +2,16 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const slack = require('slack');
+const sleep = require('system-sleep');
 var GQuotes = []
 var pingBanUsers = ["<@107599228900999168>"]
 var dadmode = 0
+  //color variables
+var green = 3329330
+var red = 16711680
+var yellow = 16776960
+var burple = 7506394
+
 //Boot Sequence
 client.on('ready', () => {
   console.log("Bot is online");
@@ -18,12 +25,20 @@ var prefix = "a-"
 client.on('message', message => {
 if (message.author.bot) {return};
 
+function randNum(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+var waitTime = ping
+function wait(){
+  sleep(waitTime*100);
+}
+
 //Ping command
 var ping = Math.round(client.ping);
 if (message.content.startsWith (prefix + 'ping')) {
   const embed = {
-  "title": "Pong! " + ping + "ms",
-  "color": 7506394
+  "title": "Pong! " + ping + "ms :ping_pong:",
+  "color": burple
 };
 message.channel.send({ embed });
   console.log('Client Ping reported as ' + ping + 'ms.');
@@ -32,7 +47,7 @@ message.channel.send({ embed });
   if (message.content === (prefix + 'pressF')) {
     const embed = {
       "title": "🇫",
-      "color": 7506394
+      "color": burple
     };
     message.channel.send({ embed });
 }
@@ -45,7 +60,7 @@ else if (message.content.startsWith(prefix + 'pressF')) {
     if (message.author.id != "107599228900999168"){
       const embed = {
   "title": "***Welcome back.***",
-  "color": 7506394,
+  "color": burple,
   "footer": {
     "text": "Help Menu"
   },
@@ -61,7 +76,7 @@ message.author.send({ embed });
     else {
       const embed = {
   "title": "***Welcome back, Akii***",
-  "color": 7506394,
+  "color": burple,
   "footer": {
     "text": "Help Menu"
   },
@@ -89,7 +104,7 @@ if (message.content.startsWith(prefix + 'storequote')) {
   var quote =(message.content.substring(13));
   const embed = {
   "title": "Stored quote in position"  + [GQuotes.length] + ".",
-  "color": 7506394
+  "color": burple
   };
   message.channel.send({ embed });
 GQuotes.push(quote);
@@ -98,7 +113,7 @@ GQuotes.push(quote);
 if (message.content === (prefix + 'quote')) {
   const embed = {
   "title": GQuotes.randomElement(),
-  "color": 7506394
+  "color": burple
   };
   message.channel.send({ embed });
 }
@@ -108,13 +123,13 @@ var random = Math.floor((Math.random() * 10) + 1);
 if(random & 1){
   const embed = {
   "title": "The coin landed on **heads**.",
-  "color": 7506394
+  "color": burple
   };
   message.channel.send({ embed });  // ODD
 } else {
   const embed = {
   "title": "The coin landed on **tails**.",
-  "color": 7506394
+  "color": burple
   };
   message.channel.send({ embed });    // EVEN
   }
@@ -124,7 +139,7 @@ if (message.content.startsWith(prefix + 'setgame')){
   if (message.author.id != "107599228900999168"){
     const embed = {
     "title": ":x: **Ya dingus.** You don't have permission to use this command.",
-    "color": 16711680
+    "color": red
   };
   message.channel.send({ embed });
 }
@@ -133,7 +148,7 @@ if (message.content.startsWith(prefix + 'setgame')){
     client.user.setGame(game);
     const embed = {
   "title": ":white_check_mark: New game set!",
-  "color": 3329330
+  "color": green
 };
 message.channel.send({ embed });
   }
@@ -143,14 +158,14 @@ if (message.content.startsWith(prefix + 'kill')){
   if (message.author.id != "107599228900999168"){
     const embed = {
     "title": ":x: **Ya dingus.** You don't have permission to use this command.",
-    "color": 16711680
+    "color": red
   };
   message.channel.send({ embed });
   }
   else {
     const embed = {
   "title": ":warning: Bot turning off. This might take a bit.",
-  "color": 16776960
+  "color": yellow
 };
 message.channel.send({ embed });
     client.destroy((err) => {
@@ -162,7 +177,7 @@ message.channel.send({ embed });
 if (message.content === (prefix + 'about')){
   message.react("👌")
   const embed = {
-  "color": 7506394,
+  "color": burple,
   "footer": {
     "text": "About Menu"
   },
@@ -177,17 +192,13 @@ message.author.send({ embed });
 }
 //ayy => lmao
 if (message.content.startsWith("ayy")){
-  const embed = {
-  "title": "lmao!",
-  "color": 7506394
-};
-message.channel.send({ embed });
+  message.channel.send("lmao!");
 }
 //lockdown command: Adds the "lockdown" role to everyone on the server
 if (message.content.startsWith("beta:" + prefix + "lockdown")){
   const embed = {
   "title": ":warning: This command is still in development and is not enabled currently.",
-  "color": 16776960
+  "color": yellow
 };
 message.channel.send({ embed });
   }
@@ -196,14 +207,14 @@ message.channel.send({ embed });
     if (message.channel.type === "dm") {
       const embed = {
 "title": ":x: Sorry! This command can't be used in DMs! It'll crash the bot.",
-"color": 16711680
+"color": red
 };
 message.channel.send({ embed });
        }
        else {
      const embed = {
   "title": ":warning: This command is still in development and is not enabled currently.",
-  "color": 16776960
+  "color": yellow
 };
 message.channel.send({ embed });
      /* const embed = {
@@ -260,7 +271,7 @@ if(message.content.startsWith(prefix + "setname")) {
   if (message.author.id != "107599228900999168") {
     const embed = {
     "title": ":x: **Ya dingus.** You don't have permission to use this command.",
-    "color": 16711680
+    "color": red
   };
   message.channel.send({ embed });
 }
@@ -269,16 +280,16 @@ if(message.content.startsWith(prefix + "setname")) {
       client.user.setUsername(newUsername);
       const embed = {
     "title": ":white_check_mark: New username set!",
-    "color": 3329330
+    "color": green
   };
   message.channel.send({ embed });
     }
   }
 //Skype => You BROOM!
-if (message.content.includes("skype" || "Skype")){
+if (message.content.includes("skype") || message.content.includes("Skype")){
   const embed = {
   "title": "lmao! You are a **BROOM!**",
-  "color": 7506394
+  "color": burple
 };
 message.channel.send({ embed });
 }
@@ -286,7 +297,7 @@ message.channel.send({ embed });
 if (message.content === (prefix + "akiibot")){
   const embed = {
   "title": ":rotating_light: **RED ALERT! RED ALERT!** :rotating_light: **AKII IS A BOT** __***CONFIRMED!***__ :rotating_light:",
-  "color": 7506394
+  "color": red
 };
 message.channel.send({ embed });
 }
@@ -295,21 +306,21 @@ if(message.content.startsWith(prefix + "shame")) {
  if (message.mentions.users.size < 1) {
    const embed = {
   "title": "Shame on...no one. You forgot to shame someone.",
-  "color": 7506394
+  "color": red
 };
 message.channel.send({ embed });
 }
 else if (message.mentions.users.size > 1) {
   const embed = {
   "title": "Whoa, you're shaming too many people. One at a time please.",
-  "color": 7506394
+  "color": red
 };
 message.channel.send({ embed });
 }
   else {
     const embed = {
     "title": message.mentions.users.first() + ", 🔔 ***S H A M E*** 🔔",
-    "color": 7506394
+    "color": red
     };
     message.channel.send({ embed });
   }
@@ -325,7 +336,7 @@ if(message.content.includes("🎉")){
 if(message.content.startsWith(prefix + "bean")){
   const embed = {
 "title": ":warning: This command is still in development and is not enabled currently.",
-"color": 16776960
+"color": yellow
 };
 message.channel.send({ embed });
 /*  if (message.mentions.users.size < 1){
@@ -347,7 +358,7 @@ if(message.content.includes("<@107599228900999168>")){
 if(message.content.startsWith(prefix + "addpingban")){
   const embed = {
 "title": ":warning: This command is still in development and is not enabled currently.",
-"color": 16776960
+"color": yellow
 };
 message.channel.send({ embed });
 /*  var pingBanUser =(message.mentions.users.first());
@@ -360,7 +371,7 @@ if (message.content.startsWith(prefix + "dadmode")) {
   dadmode = 0;
   const embed = {
   "title": "Dad mode off. Dad must have gone on a business trip..",
-  "color": 7506394
+  "color": red
 };
 message.channel.send({ embed });
 }
@@ -368,14 +379,14 @@ else if (message.content.substring(10) === "on") {
   dadmode = 1;
   const embed = {
   "title": "Dad mode on. Send a message starting with ``I'm`` to begin.",
-  "color": 7506394
+  "color": green
 };
 message.channel.send({ embed });
 }
   else {
     const embed = {
   "title": "I couldn't understand. If you would like to turn dad mode off, type `a-dadmode off`. If you want to turn it back on, type `g-dadmode on`.",
-  "color": 7506394
+  "color": yellow
 };
 message.channel.send({ embed });
   }
@@ -383,19 +394,15 @@ message.channel.send({ embed });
 if (message.content.startsWith("I'm") && dadmode == "1") {
   const embed = {
 "title": "Hi, " + message.content.substring(4) + ", I'm Dad!",
-"color": 7506394
+"color": burple
 };
 message.channel.send({ embed });
-}
-//think --> :ThinkPlant: reaction
-if(message.content.includes("think") || message.content.includes("Think") || message.content.includes("thonk") || message.content.includes("Thonk")){
-  message.react("328736734072274945");
 }
 //stats command: gives info on the stats of the bot
 if(message.content === (prefix + "stats")){
   const embed = {
   "title": "**Stats:**",
-  "color": 7506394,
+  "color": burple,
   "footer": {
     "text": "Stats Menu"
   },
@@ -423,7 +430,7 @@ message.channel.send({ embed });
 if (message.content === (prefix + 'commend')) {
   const embed = {
     "title": "Congratulations! :tada:",
-    "color": 7506394
+    "color": green
   };
   message.channel.send({ embed });
 }
@@ -432,30 +439,142 @@ if (message.content === (prefix + 'commend')) {
     if(message.mentions.users.size < 1){
       const embed = {
         "title": "You didn't mention someone.",
-        "color": 16711680
+        "color": red
       };
       message.channel.send({ embed });
     }
     else if(message.mentions.users.size > 1){
       const embed = {
         "title": "You're mentioning too many people.",
-        "color": 16711680
+        "color": red
       };
       message.channel.send({ embed });
     }
     else {
     const embed = {
       "title": "Account Created: " + message.mentions.users.first().createdAt,
-      "color": 7506394
+      "color": burple
     };
     message.channel.send({ embed });
     console.log(message.mentions.users.first().createdAt);
     }
   }
+//downloadram command: Memey command
+function downloadRamWait(){
+  sleep(((waitTime*10^100)+message.content.substring(14))/2);
+}
+if(message.content.startsWith(prefix + "downloadram")){
+  if(message.content.substring(14) === ""){
+    const embed = {
+  "color": red,
+  "fields": [
+    {
+      "name": "You didn't specify how much ram to download!",
+      "value": "Please place a number after the command."
+    }
+  ]
+};
+message.channel.send({ embed });
+  }
+  else if(message.content.substring(14) > 30){
+    message.channel.send({embed: {
+  color: red,
+  title: ':warning: You\'re downloading too much ram.'
+}});
+  }
+  else {
+    message.channel.send({embed: {
+  color: yellow,
+  title: ':gear: Downloading ram...',
+  description: 'Depending on your ping, this might take a bit.'
+}});
+  downloadRamWait();
+  const embed = {
+    "color": green,
+    "fields": [
+      {
+        "name": ":white_check_mark: Ram downloaded!",
+        "value": "You can find the ram in your local directory."
+      }
+    ]
+  };
+  message.channel.send({ embed });
+    }
+}
+//@AkiiBot --> 😃 reaction
+if(message.content.includes("<@323213552695508993>")){
+  message.react('😃')
+}
+//kick command: kicks a user
+if(message.content.startsWith(prefix + "kick")){
+  if(message.member.permissions.has("KICK_MEMBERS")){
+    //message.mentions.users.first().kick();
+    const embed = {
+      "title": ":white_check_mark: User has been kicked.",
+      "color": green
+    };
+    message.channel.send({ embed });
+  }
+  else {
+    const embed = {
+      "title": ":x: You do not have permission to kick users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+}
+//ban command: bans a user
+if(message.content.startsWith(prefix + "ban")){
+  if(message.member.permissions.has("BAN_MEMBERS")){
+    //message.mentions.users.first().ban();
+    const embed = {
+      "title": ":white_check_mark: User has been banned.",
+      "color": green
+    };
+    message.channel.send({ embed });
+  }
+  else {
+    const embed = {
+      "title": ":x: You do not have permission to ban users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+}
 
+//Dev commands: Normal users don't need them
+if(message.content === (prefix + "green")){
+  const embed = {
+    "title": "3329330",
+    "color": green
+  };
+  message.channel.send({ embed });
+}
+if(message.content === (prefix + "red")){
+  const embed = {
+    "title": "16711680",
+    "color": red
+  };
+  message.channel.send({ embed });
+}
+if(message.content === (prefix + "yellow")){
+  const embed = {
+    "title": "16776960",
+    "color": yellow
+  };
+  message.channel.send({ embed });
+}
+if(message.content === (prefix + "burple")){
+  const embed = {
+    "title": "7506394",
+    "color": burple
+  };
+  message.channel.send({ embed });
+}
 
 //Insert slack compatability here:
 
+//End slack compatability here ^^
 
 });
 
