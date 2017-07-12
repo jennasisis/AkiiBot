@@ -15,7 +15,7 @@ var burple = 7506394
 //Boot Sequence
 client.on('ready', () => {
   console.log("Bot is online");
-  client.user.setGame("with Akii#2111");
+  client.user.setGame("a-help");
 });
 client.on('error', () => {
   console.log("ERROR: BOT UNABLE TO START");
@@ -184,7 +184,7 @@ if (message.content === (prefix + 'about')){
   "fields": [
     {
       "name": ":wave: **Hi there! I'm AkiiBot!** :smiley:",
-      "value": "This bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **Akii#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing ``a-help``. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a (GitHub Issue)[http://github.com/jennasisis/AkiiBot/issues] \n\n**Thanks for using the bot!**"
+      "value": "This bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **Akii#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing ``a-help``. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a (GitHub Issue)[http://github.com/jennasisis/AkiiBot/issues]\n\n If you'd like to join the support server, (use this link!)[] \n\n**Thanks for using the bot!**"
     }
   ]
 };
@@ -270,7 +270,7 @@ message.channel.send({ embed });
 if(message.content.startsWith(prefix + "setname")) {
   if (message.author.id != "107599228900999168") {
     const embed = {
-    "title": ":x: **Ya dingus.** You don't have permission to use this command.",
+    "title": ":x: You do not have permission to use this command.",
     "color": red
   };
   message.channel.send({ embed });
@@ -285,22 +285,7 @@ if(message.content.startsWith(prefix + "setname")) {
   message.channel.send({ embed });
     }
   }
-//Skype => You BROOM!
-if (message.content.includes("skype") || message.content.includes("Skype")){
-  const embed = {
-  "title": "lmao! You are a **BROOM!**",
-  "color": burple
-};
-message.channel.send({ embed });
-}
-//"akii is a bot" command
-if (message.content === (prefix + "akiibot")){
-  const embed = {
-  "title": ":rotating_light: **RED ALERT! RED ALERT!** :rotating_light: **AKII IS A BOT** __***CONFIRMED!***__ :rotating_light:",
-  "color": red
-};
-message.channel.send({ embed });
-}
+
 //shame command: responds with ***S H A M E***, followed by a mention
 if(message.content.startsWith(prefix + "shame")) {
  if (message.mentions.users.size < 1) {
@@ -325,67 +310,50 @@ message.channel.send({ embed });
     message.channel.send({ embed });
   }
 }
-//:tada: --> :tada:
-if(message.content.includes("🎉")){
-  message.react("🎉");
-}
-  else if (message.content.startsWith("🎉")){
-    message.mentions.users.first().lastMessage.react("🎉");
-  }
 //bean command: memey ban command
 if(message.content.startsWith(prefix + "bean")){
-  const embed = {
-"title": ":warning: This command is still in development and is not enabled currently.",
-"color": yellow
-};
-message.channel.send({ embed });
-/*  if (message.mentions.users.size < 1){
-    message.reply("You've beaned... no one. You forgot to mention someone.");
+  if(message.mentions.users.size > 1){
+    const embed = {
+      "title": ":x: You're mentioning too many people.",
+      "color": red
+    };
+    message.channel.send({ embed });
   }
-  else if (message.mentions.users.size > 1){
-    message.reply("Whoa! You're beaning too many people! One at a time!");
+  else if(message.mentions.users.size < 1){
+    const embed = {
+      "title": ":x: You didn't mention anyone.",
+      "color": red
+    };
+    message.channel.send({ embed });
   }
   else {
-    message.channel.send(message.mentions.users.first() + ", **YOU'VE BEEN BEANED!** `Reason: ` + message.content.slice(#).substring(5) ");
-  } */
-}
-//@Akii --> [Banned]
-if(message.content.includes("<@107599228900999168>")){
-/*    message.author.send("You have been banned from **Akii** for: ``Mentioning a user on the ping = ban list.``"); */ /* Enable this again when you can figure out how to PM without a friend request. */
-    //message.member.ban(message.author);
+    const embed = {
+      "title": message.mentions.users.first() + ", you've been beaned!",
+      "color": burple
+    };
+    message.channel.send({ embed });
   }
- //addpingban command: adds a mentioned user to the "pingBanUsers" Array
-if(message.content.startsWith(prefix + "addpingban")){
-  const embed = {
-"title": ":warning: This command is still in development and is not enabled currently.",
-"color": yellow
-};
-message.channel.send({ embed });
-/*  var pingBanUser =(message.mentions.users.first());
-message.channel.send("Stored user in position " + [pingBanUsers.length] + ".")
-pingBanUsers.push(pingBanUser); */
 }
 //a-dadmode command: "Hi <string>, I'm Dad!"
 if (message.content.startsWith(prefix + "dadmode")) {
   if (message.content.substring(10) === "off") {
   dadmode = 0;
   const embed = {
-  "title": "Dad mode off. Dad must have gone on a business trip..",
-  "color": red
+  "title": "Dad mode off. Dad must have gone on a business trip.."
 };
 message.channel.send({ embed });
 }
 else if (message.content.substring(10) === "on") {
   dadmode = 1;
   const embed = {
-  "title": "Dad mode on. Send a message starting with ``I'm`` to begin.",
+  "title": "Dad mode on. Send a message starting with \"I'm\" to begin.",
   "color": green
 };
 message.channel.send({ embed });
 }
   else {
     const embed = {
-  "title": "I couldn't understand. If you would like to turn dad mode off, type `a-dadmode off`. If you want to turn it back on, type `g-dadmode on`.",
+  "title": "I couldn't understand.\nIf you would like to turn dad mode off, type a-dadmode off. If you want to turn it back on, type g-dadmode on`.",
   "color": yellow
 };
 message.channel.send({ embed });
@@ -400,31 +368,29 @@ message.channel.send({ embed });
 }
 //stats command: gives info on the stats of the bot
 if(message.content === (prefix + "stats")){
-  const embed = {
-  "title": "**Stats:**",
-  "color": burple,
-  "footer": {
-    "text": "Stats Menu"
-  },
-  "fields": [
+  message.channel.send({embed: {
+  color: burple,
+  fields: [
     {
-      "name": "Uptime:",
-      "value": (Math.round(client.uptime / (1000 * 60 * 60))) + " h, " + (Math.round(client.uptime / (1000 * 60)) % 60) + " m, " + (Math.round(client.uptime / 1000) % 60) + " s.",
-      "inline": true
+      name: 'Uptime:',
+      value: (Math.round(client.uptime / (1000 * 60 * 60))) + " h, " + (Math.round(client.uptime / (1000 * 60)) % 60) + " m, " + (Math.round(client.uptime / 1000) % 60) + " s.",
+      inline: true
     },
     {
-      "name": "Ping:",
-      "value": ping + "ms",
-      "inline": true
+      name: 'Ping:',
+      value: ping + "ms. :ping_pong:",
+      inline: true
     },
     {
-      "name": "Servers in:",
-      "value": "[INDEV]",
-      "inline": true
+      name: 'Servers:',
+      value: client.guilds,
+      inline: true
     }
-  ]
-};
-message.channel.send({ embed });
+  ],
+  footer: {
+    text: 'Stats Menu'
+  }
+}});
 }
 //commend command: congratulates a user; defaults to nothing if no user is mentioned
 if (message.content === (prefix + 'commend')) {
