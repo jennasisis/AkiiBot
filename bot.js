@@ -1,7 +1,6 @@
 //Constants
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const slack = require('slack');
 const sleep = require('system-sleep');
 var GQuotes = []
 var pingBanUsers = ["<@107599228900999168>"]
@@ -537,10 +536,6 @@ if(message.content === (prefix + "burple")){
   };
   message.channel.send({ embed });
 }
-
-//Insert slack compatability here:
-
-//End slack compatability here ^^
 
 });
 
