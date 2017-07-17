@@ -1,10 +1,11 @@
-//Constants
+﻿//Constants
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const sleep = require('system-sleep');
 var GQuotes = []
 var pingBanUsers = ["<@107599228900999168>"]
 var dadmode = 0
+var akiiID = "107599228900999168"
   //color variables
 var green = 3329330
 var red = 16711680
@@ -14,7 +15,8 @@ var burple = 7506394
 //Boot Sequence
 client.on('ready', () => {
   console.log("Bot is online");
-  client.user.setGame("a-help");
+  client.user.setGame("a-help on " + client.guilds.size + " servers");
+  //a-help in " + client.guilds.size + " servers
 });
 client.on('error', () => {
   console.log("ERROR: BOT UNABLE TO START");
@@ -42,6 +44,17 @@ if (message.content.startsWith (prefix + 'ping')) {
 message.channel.send({ embed });
   console.log('Client Ping reported as ' + ping + 'ms.');
   }
+
+if(message.content.startsWith("<@323213552695508993>")){
+  message.channel.startTyping(4000);
+  const embed = {
+    "title": ":x: Sorry! That's not my prefix!",
+    "description": "Do \"a-help\" to find my commands!",
+    "color": red
+  };
+  message.channel.send({ embed });
+}
+
 //PressF Command
   if (message.content === (prefix + 'pressF')) {
     const embed = {
@@ -56,7 +69,7 @@ else if (message.content.startsWith(prefix + 'pressF')) {
 //Help command
   if (message.content === (prefix + 'help')) {
     message.react('👌');
-    if (message.author.id != "107599228900999168"){
+    if (message.author.id != akiiID){
       const embed = {
   "title": "***Welcome back.***",
   "color": burple,
@@ -66,7 +79,7 @@ else if (message.content.startsWith(prefix + 'pressF')) {
   "fields": [
     {
       "name": "**Commands:**",
-      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-akiibot: Replies with the Akii Bot meme\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
+      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
     }
   ]
 };
@@ -82,7 +95,7 @@ message.author.send({ embed });
   "fields": [
     {
       "name": "**Commands everyone has access to:**",
-      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-akiibot: Replies with the Akii Bot meme\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
+      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
     },
     {
       "name": "**Commands only you have access to:**",
@@ -135,13 +148,21 @@ if(random & 1){
 }
 //setgame command: This will set the "playing..." status of the bot
 if (message.content.startsWith(prefix + 'setgame')){
-  if (message.author.id != "107599228900999168"){
+  if (message.author.id != akiiID){
     const embed = {
     "title": ":x: **Ya dingus.** You don't have permission to use this command.",
     "color": red
   };
   message.channel.send({ embed });
 }
+  else if(message.content.substring(10) === "" && message.author.id === akiiID){
+    client.user.setGame("");
+    const embed = {
+      "title": ":white_check_mark: Game removed!",
+      "color": green
+    };
+    message.channel.send({ embed });
+  }
   else {
     game = message.content.substring(10);
     client.user.setGame(game);
@@ -154,7 +175,7 @@ message.channel.send({ embed });
 }
 //kill command: This will turn the bot off.
 if (message.content.startsWith(prefix + 'kill')){
-  if (message.author.id != "107599228900999168"){
+  if (message.author.id != akiiID){
     const embed = {
     "title": ":x: **Ya dingus.** You don't have permission to use this command.",
     "color": red
@@ -211,12 +232,7 @@ message.channel.send({ embed });
 message.channel.send({ embed });
        }
        else {
-     const embed = {
-  "title": ":warning: This command is still in development and is not enabled currently.",
-  "color": yellow
-};
-message.channel.send({ embed });
-     /* const embed = {
+      const embed = {
        "color": 7506394,
        "thumbnail": {
          "url": message.guild.iconURL
@@ -249,25 +265,15 @@ message.channel.send({ embed });
            "name": "Server Created:",
            "value": message.guild.createdAt,
            "inline": true
-         },
-         {
-           "name": "Roles:",
-           "value": message.guild.roles,
-           "inline": true
-         },
-         {
-           "name": "Custom Emojis:",
-           "value": message.guild.emojis,
-           "inline": true
          }
        ]
      };
-    message.channel.send({ embed }) */
-   } 
+    message.channel.send({ embed });
+   }
 }
 //setname command: Sets the bot's name.
 if(message.content.startsWith(prefix + "setname")) {
-  if (message.author.id != "107599228900999168") {
+  if (message.author.id != akiiID) {
     const embed = {
     "title": ":x: You do not have permission to use this command.",
     "color": red
@@ -302,12 +308,8 @@ else if (message.mentions.users.size > 1) {
 message.channel.send({ embed });
 }
   else {
-    const embed = {
-    "title": message.mentions.users.first() + ", 🔔 ***S H A M E*** 🔔",
-    "color": red
-    };
-    message.channel.send({ embed });
-  }
+    message.channel.send(message.mentions.users.first() + ", :bell: ***S H A M E*** :bell:")
+}
 }
 //bean command: memey ban command
 if(message.content.startsWith(prefix + "bean")){
@@ -327,7 +329,7 @@ if(message.content.startsWith(prefix + "bean")){
   }
   else {
     const embed = {
-      "title": message.mentions.users.first() + ", you've been beaned!",
+      "title": "You've been beaned!",
       "color": burple
     };
     message.channel.send({ embed });
@@ -382,13 +384,10 @@ if(message.content === (prefix + "stats")){
     },
     {
       name: 'Servers:',
-      value: client.guilds,
+      value: client.guilds.size,
       inline: true
     }
-  ],
-  footer: {
-    text: 'Stats Menu'
-  }
+  ]
 }});
 }
 //commend command: congratulates a user; defaults to nothing if no user is mentioned
@@ -421,7 +420,6 @@ if (message.content === (prefix + 'commend')) {
       "color": burple
     };
     message.channel.send({ embed });
-    console.log(message.mentions.users.first().createdAt);
     }
   }
 //downloadram command: Memey command
@@ -472,8 +470,23 @@ if(message.content.includes("<@323213552695508993>")){
 }
 //kick command: kicks a user
 if(message.content.startsWith(prefix + "kick")){
-  if(message.member.permissions.has("KICK_MEMBERS")){
-    //message.mentions.users.first().kick();
+  if(message.mentions.users.size > 1){
+    const embed = {
+      "title": ":x: You are mentioning too many users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else if(message.mentions.users.size < 1){
+    const embed = {
+      "title": ":x: You didn't mention anyone.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else {
+  if(message.member.permissions.has("KICK_MEMBERS") || message.author.id === akiiID){
+    message.mentions.members.first().kick();
     const embed = {
       "title": ":white_check_mark: User has been kicked.",
       "color": green
@@ -488,10 +501,26 @@ if(message.content.startsWith(prefix + "kick")){
     message.channel.send({ embed });
   }
 }
+}
 //ban command: bans a user
 if(message.content.startsWith(prefix + "ban")){
-  if(message.member.permissions.has("BAN_MEMBERS")){
-    //message.mentions.users.first().ban();
+  if(message.mentions.users.size > 1){
+    const embed = {
+      "title": ":x: You are mentioning too many users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else if(message.mentions.users.size < 1){
+    const embed = {
+      "title": ":x: You didn't mention anyone.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else {
+  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === akiiID){
+    message.mentions.members.first().ban();
     const embed = {
       "title": ":white_check_mark: User has been banned.",
       "color": green
@@ -505,6 +534,62 @@ if(message.content.startsWith(prefix + "ban")){
     };
     message.channel.send({ embed });
   }
+}
+}
+//unban OR pardon command: unbans a user
+if(message.content.startsWith(prefix + "unban")){
+  if(message.mentions.users.size > 1){
+    const embed = {
+      "title": ":x: You are mentioning too many users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else if(message.mentions.users.size < 1){
+    const embed = {
+      "title": ":x: You didn't mention anyone",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else {
+  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === akiiID){
+    message.guild.unban(message.content.substring(8));
+    const embed = {
+      "title": ":white_check_mark: User has been unbanned.",
+      "color": green
+    };
+    message.channel.send({ embed });
+  }
+  else {
+    const embed = {
+      "title": ":x: You do not have permission to unban users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+}
+}
+
+//discord.gg/xx OR .gg/xx --> [REMOVED]
+if(message.content.includes(".gg/")){
+  message.delete();
+  const embed = {
+    "title": ":x: Do not advertise!",
+    "color": red
+  };
+  message.channel.send({ embed }).then(thismessage => {thismessage.delete(4000);});
+}
+//a-send command: Sends <string> to the channel
+if(message.content.startsWith(prefix + "send")){
+  message.delete();
+  message.channel.send(message.content.substring(7));
+}
+
+//This is nothing special, really.
+//net-neutrality command
+if(message.content === (prefix + "net neutrality")){
+  message.channel.send("***Join us.*** http://battleforthenet.com \n\n(Version that explains a bit more: https://netneutrality.internetassociation.org/action/)");
 }
 
 //Dev commands: Normal users don't need them
@@ -537,7 +622,14 @@ if(message.content === (prefix + "burple")){
   message.channel.send({ embed });
 }
 
+//testing commands:
+if(message.content === (prefix + "start typing")){
+  message.channel.startTyping();
+}
+if(message.content === (prefix + "stop typing")){
+  message.channel.stopTyping();
+}
 });
 
 //Token
-client.login("lmao");
+client.login("hehe you thought <3");
