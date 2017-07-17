@@ -11,3 +11,4 @@ Uh, sure? You would have to re-code 99% of it so that it matched what you needed
 Ok, jeez, calm down, i'm still learning. Just open up a [pull request](https://github.com/jennasisis/AkiiBot/pulls).
 ## HEY, THIS IS WRONG AND DOESN'T WORK!
 Alright, open up an [issue](https://github.com/jennasisis/AkiiBot/issues), I'll see what I can do.
+
