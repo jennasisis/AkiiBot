@@ -1,10 +1,11 @@
-﻿//Constants
+//Constants
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const sleep = require('system-sleep');
-const fs = require('fs');
-const config = require('./config.json');
 var GQuotes = []
+var pingBanUsers = ["<@107599228900999168>"]
+var dadmode = 0
+var akiiID = "107599228900999168"
   //color variables
 var green = 3329330
 var red = 16711680
@@ -14,7 +15,7 @@ var burple = 7506394
 //Boot Sequence
 client.on('ready', () => {
   console.log("Bot is online");
-  client.user.setGame("a-help on " + client.guilds.size + " servers");
+  client.user.setGame("<<LOCAL VERSION>> | a-help");
   //a-help in " + client.guilds.size + " servers
 });
 client.on('error', () => {
@@ -29,8 +30,8 @@ function randNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 var waitTime = ping
-function wait(){
-  sleep(waitTime*100);
+function wait(n){
+  sleep(((waitTime + n) / 2) * 100^1000);
 }
 
 //Ping command
@@ -45,7 +46,6 @@ message.channel.send({ embed });
   }
 
 if(message.content.startsWith("<@323213552695508993>")){
-  message.channel.startTyping(4000);
   const embed = {
     "title": ":x: Sorry! That's not my prefix!",
     "description": "Do \"a-help\" to find my commands!",
@@ -78,7 +78,7 @@ else if (message.content.startsWith(prefix + 'pressF')) {
   "fields": [
     {
       "name": "**Commands:**",
-      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
+      "value": "This bot's prefix is \"la-\".\n\n``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
     }
   ]
 };
@@ -94,7 +94,7 @@ message.author.send({ embed });
   "fields": [
     {
       "name": "**Commands everyone has access to:**",
-      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
+      "value": "This bot's prefix is \"la-\"\n\n``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
     },
     {
       "name": "**Commands only you have access to:**",
@@ -203,15 +203,11 @@ if (message.content === (prefix + 'about')){
   "fields": [
     {
       "name": ":wave: **Hi there! I'm AkiiBot!** :smiley:",
-      "value": "This bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **Akii#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing ``a-help``. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a (GitHub Issue)[http://github.com/jennasisis/AkiiBot/issues]\n\n If you'd like to join the support server, (use this link!)[] \n\n**Thanks for using the bot!**"
+      "value": "\<\<Local Version\>\> \n\nThis bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **Akii#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing ``a-help``. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a (GitHub Issue)[http://github.com/jennasisis/AkiiBot/issues]\n\n If you'd like to join the support server, (use this link!)[] \n\n**Thanks for using the bot!**"
     }
   ]
 };
 message.author.send({ embed });
-}
-//ayy => lmao
-if (message.content.startsWith("ayy")){
-  message.channel.send("lmao");
 }
 //lockdown command: Adds the "lockdown" role to everyone on the server
 if (message.content.startsWith("beta:" + prefix + "lockdown")){
@@ -359,7 +355,7 @@ message.channel.send({ embed });
 message.channel.send({ embed });
   }
   }
-if (message.content.startsWith("I'm") && config.dadmode == "1") {
+if (message.content.startsWith("I'm") && dadmode == "1") {
   const embed = {
 "title": "Hi, " + message.content.substring(4) + ", I'm Dad!",
 "color": burple
@@ -518,7 +514,7 @@ if(message.content.startsWith(prefix + "ban")){
     message.channel.send({ embed });
   }
   else {
-  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === config.akiiID){
+  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === akiiID){
     message.mentions.members.first().ban();
     const embed = {
       "title": ":white_check_mark: User has been banned.",
@@ -591,6 +587,74 @@ if(message.content === (prefix + "net neutrality")){
   message.channel.send("***Join us.*** http://battleforthenet.com \n\n(Version that explains a bit more: https://netneutrality.internetassociation.org/action/)");
 }
 
+//downloadinternet command: Memey command
+function downloadInternetWait(){
+  sleep(((waitTime*10^100)+message.content.substring(19))/2);
+}
+if(message.content.startsWith(prefix + "downloadinternet")){
+  if(message.content.substring(19) === ""){
+    const embed = {
+  "color": red,
+  "fields": [
+    {
+      "name": "You didn't specify how much internet to download!",
+      "value": "Please place a number after the command."
+    }
+  ]
+};
+message.channel.send({ embed });
+  }
+  else if(message.content.substring(19) > 500){
+    message.channel.send({embed: {
+  color: red,
+  title: ':warning: You\'re downloading too much internet.'
+}});
+  }
+  else {
+    message.channel.send({embed: {
+  color: yellow,
+  title: ':gear: Downloading internet...',
+  description: 'Depending on your ping, this might take a bit.'
+}});
+  downloadInternetWait();
+  const embed = {
+    "color": green,
+    "fields": [
+      {
+        "name": ":white_check_mark: Internet downloaded!",
+        "value": "You can find the Internet in your local directory."
+      }
+    ]
+  };
+  message.channel.send({ embed });
+    }
+}
+//If dotposter, then delete and DM reminder message.
+if(message.content === "."){
+  wait(10000);
+  message.delete();
+  message.author.send({embed: {
+  color: burple,
+  title: 'Hey there!',
+  description: 'I noticed you posted a dot! If it was because the unread notifier was there, just press ESC and it will go away. Thanks :D'
+}});
+}
+
+//If DM message that's not a command, send message to channel, and vice versa.
+if(message.channel.type === "dm" && !message.content.startsWith(prefix)){
+  client.channels.get('339595296193380365').send('**' + message.author.username + ':** '+ message.content);
+}
+if(!message.content.startsWith(prefix + "dm")){
+  return;
+} else {
+  var idSize = message.mentions.users.first().id.length
+}
+
+if(message.content.startsWith(prefix + "dm")){
+  message.mentions.users.first().send("**" + message.author.username + ":** " + message.content.substring((9 + idSize)));
+}
+
+
 //Dev commands: Normal users don't need them
 if(message.content === (prefix + "green")){
   const embed = {
@@ -621,14 +685,15 @@ if(message.content === (prefix + "burple")){
   message.channel.send({ embed });
 }
 
-//testing commands:
 if(message.content === (prefix + "start typing")){
   message.channel.startTyping();
 }
 if(message.content === (prefix + "stop typing")){
   message.channel.stopTyping();
 }
+
 });
 
+
 //Token
-client.login(config.token);
+client.login("lol");
