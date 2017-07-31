@@ -2,10 +2,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const sleep = require('system-sleep');
+const fs = require('fs');
+const config = require('./config.json');
 var GQuotes = []
-var pingBanUsers = ["<@107599228900999168>"]
-var dadmode = 0
-var akiiID = "107599228900999168"
   //color variables
 var green = 3329330
 var red = 16711680
@@ -212,7 +211,7 @@ message.author.send({ embed });
 }
 //ayy => lmao
 if (message.content.startsWith("ayy")){
-  message.channel.send("lmao!");
+  message.channel.send("lmao");
 }
 //lockdown command: Adds the "lockdown" role to everyone on the server
 if (message.content.startsWith("beta:" + prefix + "lockdown")){
@@ -360,7 +359,7 @@ message.channel.send({ embed });
 message.channel.send({ embed });
   }
   }
-if (message.content.startsWith("I'm") && dadmode == "1") {
+if (message.content.startsWith("I'm") && config.dadmode == "1") {
   const embed = {
 "title": "Hi, " + message.content.substring(4) + ", I'm Dad!",
 "color": burple
@@ -519,7 +518,7 @@ if(message.content.startsWith(prefix + "ban")){
     message.channel.send({ embed });
   }
   else {
-  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === akiiID){
+  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === config.akiiID){
     message.mentions.members.first().ban();
     const embed = {
       "title": ":white_check_mark: User has been banned.",
@@ -632,4 +631,4 @@ if(message.content === (prefix + "stop typing")){
 });
 
 //Token
-client.login("hehe you thought <3");
+client.login(config.token);
