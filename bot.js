@@ -19,7 +19,7 @@ client.on('ready', () => {
   //a-help in " + client.guilds.size + " servers
 });
 client.on('error', () => {
-  console.log("ERROR: BOT UNABLE TO START");
+  console.error("ERROR: BOT UNABLE TO START");
 });
 //The Good Stuff
 var prefix = "a-"
@@ -36,9 +36,9 @@ function wait(n){
 
 //Ping command
 var ping = Math.round(client.ping);
-if (message.content.startsWith (prefix + 'ping')) {
+if (message.content.startsWith(prefix + 'ping')) {
   const embed = {
-  "title": "Pong! " + ping + "ms :ping_pong:",
+  "title": "Pong! " + Math.round(client.ping) + "ms :ping_pong:",
   "color": burple
 };
 message.channel.send({ embed });
@@ -68,7 +68,6 @@ else if (message.content.startsWith(prefix + 'pressF')) {
 //Help command
   if (message.content === (prefix + 'help')) {
     message.react('👌');
-    if (message.author.id != akiiID){
       const embed = {
   "title": "***Welcome back.***",
   "color": burple,
@@ -78,32 +77,11 @@ else if (message.content.startsWith(prefix + 'pressF')) {
   "fields": [
     {
       "name": "**Commands:**",
-      "value": "This bot's prefix is \"la-\".\n\n``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
+      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
     }
   ]
 };
 message.author.send({ embed });
-    }
-    else {
-      const embed = {
-  "title": "***Welcome back, Akii***",
-  "color": burple,
-  "footer": {
-    "text": "Help Menu"
-  },
-  "fields": [
-    {
-      "name": "**Commands everyone has access to:**",
-      "value": "This bot's prefix is \"la-\"\n\n``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
-    },
-    {
-      "name": "**Commands only you have access to:**",
-      "value": "``-`` a-setname: Set the bot's name \n``-`` a-setgame: Sets the bot's game \n``-`` a-kill: Shuts down the bot \n``-`` beta:a-lockdown: Locks down server **COMMAND IN-DEV** "
-    }
-  ]
-};
-message.author.send({ embed });
-    }
 }
 //where does this belong?
 Array.prototype.randomElement = function () {
@@ -203,14 +181,14 @@ if (message.content === (prefix + 'about')){
   "fields": [
     {
       "name": ":wave: **Hi there! I'm AkiiBot!** :smiley:",
-      "value": "\<\<Local Version\>\> \n\nThis bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **Akii#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing ``a-help``. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a (GitHub Issue)[http://github.com/jennasisis/AkiiBot/issues]\n\n If you'd like to join the support server, (use this link!)[] \n\n**Thanks for using the bot!**"
+      "value": "\<\<Local Version\>\> \n\nThis bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **Akii#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing ``a-help``. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a [GitHub Issue](http://github.com/jennasisis/AkiiBot/issues)\n\nIf you'd like to join the support server, [use this link!](http://discord.gg/54fVgRw) \n\n**Thanks for using the bot!**"
     }
   ]
 };
 message.author.send({ embed });
 }
 //lockdown command: Adds the "lockdown" role to everyone on the server
-if (message.content.startsWith("beta:" + prefix + "lockdown")){
+if (message.content.startsWith(prefix + "lockdown")){
   const embed = {
   "title": ":warning: This command is still in development and is not enabled currently.",
   "color": yellow
@@ -218,7 +196,8 @@ if (message.content.startsWith("beta:" + prefix + "lockdown")){
 message.channel.send({ embed });
   }
 //serverinfo command: Shows server info
-  if (message.content === (prefix + "serverinfo")) {
+  if (message.content === (prefix + "guildinfo")) {
+    var guildCreatedAt = new Date(message.guild.createdTimestamp);
     if (message.channel.type === "dm") {
       const embed = {
 "title": ":x: Sorry! This command can't be used in DMs! It'll crash the bot.",
@@ -252,15 +231,25 @@ message.channel.send({ embed });
            "inline": true
          },
          {
+          "name": "Channels:",
+          "value": message.guild.channels.size + " channels",
+          "inline": true
+         }, 
+         {
            "name": "Region:",
            "value": message.guild.region,
            "inline": true
          },
          {
            "name": "Server Created:",
-           "value": message.guild.createdAt,
+           "value": guildCreatedAt.toLocaleString(),
            "inline": true
-         }
+         },
+         {
+           "name": "Emotes:",
+           "value": message.guild.emojis.size + " emotes",
+           "inline": true
+         } 
        ]
      };
     message.channel.send({ embed });
@@ -276,8 +265,7 @@ if(message.content.startsWith(prefix + "setname")) {
   message.channel.send({ embed });
 }
   else {
-      newUsername = message.content.substring(10);
-      client.user.setUsername(newUsername);
+      client.user.setUsername(message.content.substring(10));
       const embed = {
     "title": ":white_check_mark: New username set!",
     "color": green
@@ -566,7 +554,7 @@ if(message.content.startsWith(prefix + "unban")){
 }
 }
 
-//discord.gg/xx OR .gg/xx --> [REMOVED]
+//discord.gg/xx OR .gg/ --> [REMOVED]
 if(message.content.includes(".gg/")){
   message.delete();
   const embed = {
@@ -644,9 +632,7 @@ if(message.content === "."){
 if(message.channel.type === "dm" && !message.content.startsWith(prefix)){
   client.channels.get('339595296193380365').send('**' + message.author.username + ':** '+ message.content);
 }
-if(!message.content.startsWith(prefix + "dm")){
-  return;
-} else {
+if(message.content.startsWith(prefix + "dm")){
   var idSize = message.mentions.users.first().id.length
 }
 
@@ -654,6 +640,83 @@ if(message.content.startsWith(prefix + "dm")){
   message.mentions.users.first().send("**" + message.author.username + ":** " + message.content.substring((9 + idSize)));
 }
 
+if(message.content === prefix + "leave"){
+  if(message.author.id === akiiID){
+    const embed = {
+      "title": "Pssst!",
+      "description": "Remember, `a-eval message.guild.leave();`!",
+      "color": burple
+    };
+    message.author.send({ embed });
+  } else {
+    const embed = {
+      "title": ":x: You do not have permission to use this command.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+}
+
+
+if(message.content.startsWith(prefix + "bot nitro")){
+  message.channel.send({embed: {
+  color: burple,
+  title: 'Bot "Nitro" vs. User Nitro',
+  description: 'This is to prove Gallium wrong, but also to show him my thinking.',
+  fields: [
+    {
+      name: 'User Nitro:',
+      value: ':white_check_mark: Gif Avatar\n:white_check_mark: Custom Emojis: The ability to have your emojis everywhere\n:white_check_mark: 50mb upload limit \(from 8mb\)\n:white_check_mark: Nitro Badge on user profile',
+      inline: true
+    },
+    {
+      name: 'Bot Nitro:',
+      value: ':x: Gif Avatar\n:asterisk: Custom Emojis as long as the bot is in the server.\n:x: 50mb upload limit \(from 8mb\)\n:x: Nitro Badge on user profile',
+      inline: true
+    }
+  ]
+}});
+}
+
+function clean(text) {
+  if (typeof(text) === "string")
+    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+  else
+      return text;
+}
+if(message.content.startsWith(prefix + "eval")){
+  const args = message.content.split(" ").slice(1);
+if(message.author.id !== akiiID){
+  const embed = {
+    "title": ":x: For security reasons, you do not have permission to use this command.",
+    "color": red
+  };
+  message.channel.send({ embed });
+} else {
+    try {
+      const code = args.join(" ");
+      let evaled = eval(code);
+
+      if (typeof evaled !== "string")
+        evaled = require("util").inspect(evaled);
+
+      message.channel.send(clean(evaled), {code:"xl"});
+    } catch (err) {
+      message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+    }
+}
+}
+//"This is memedog." --> Delete, ban.
+if(message.content.includes("This is memedog.")){
+  message.delete();
+}
+if(message.content.includes("look out for a user by")){
+  message.delete();
+}
+//suggestion command: DM's me with a bot suggestion
+if(message.content.startsWith(prefix + "suggestion")){
+  message.blah();
+}
 
 //Dev commands: Normal users don't need them
 if(message.content === (prefix + "green")){
@@ -696,4 +759,4 @@ if(message.content === (prefix + "stop typing")){
 
 
 //Token
-client.login("lol");
+client.login(":blobxd:");
