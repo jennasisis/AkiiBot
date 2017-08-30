@@ -15,7 +15,7 @@ var burple = 7506394
 //Boot Sequence
 client.on('ready', () => {
   console.log("Bot is online");
-  client.user.setGame("<<LOCAL VERSION>> | a-help");
+  client.user.setGame("<<LOCAL VERSION>> | a-help | bit.ly/SaveDiscordToS");
   //a-help in " + client.guilds.size + " servers
 });
 client.on('error', () => {
@@ -447,10 +447,7 @@ message.channel.send({ embed });
   message.channel.send({ embed });
     }
 }
-//@AkiiBot --> 😃 reaction
-if(message.content.includes("<@323213552695508993>")){
-  message.react('😃')
-}
+
 //kick command: kicks a user
 if(message.content.startsWith(prefix + "kick")){
   if(message.mentions.users.size > 1){
@@ -537,7 +534,7 @@ if(message.content.startsWith(prefix + "unban")){
   }
   else {
   if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === akiiID){
-    message.guild.unban(message.content.substring(8));
+    message.guild.unban(message.mentions.users.first());
     const embed = {
       "title": ":white_check_mark: User has been unbanned.",
       "color": green
@@ -567,12 +564,6 @@ if(message.content.includes(".gg/")){
 if(message.content.startsWith(prefix + "send")){
   message.delete();
   message.channel.send(message.content.substring(7));
-}
-
-//This is nothing special, really.
-//net-neutrality command
-if(message.content === (prefix + "net neutrality")){
-  message.channel.send("***Join us.*** http://battleforthenet.com \n\n(Version that explains a bit more: https://netneutrality.internetassociation.org/action/)");
 }
 
 //downloadinternet command: Memey command
@@ -628,7 +619,7 @@ if(message.content === "."){
 }});
 }
 
-//If DM message that's not a command, send message to channel, and vice versa.
+/*//If DM message that's not a command, send message to channel, and vice versa.
 if(message.channel.type === "dm" && !message.content.startsWith(prefix)){
   client.channels.get('339595296193380365').send('**' + message.author.username + ':** '+ message.content);
 }
@@ -639,7 +630,7 @@ if(message.content.startsWith(prefix + "dm")){
 if(message.content.startsWith(prefix + "dm")){
   message.mentions.users.first().send("**" + message.author.username + ":** " + message.content.substring((9 + idSize)));
 }
-
+*/
 if(message.content === prefix + "leave"){
   if(message.author.id === akiiID){
     const embed = {
@@ -715,10 +706,153 @@ if(message.content.includes("look out for a user by")){
 }
 //suggestion command: DM's me with a bot suggestion
 if(message.content.startsWith(prefix + "suggestion")){
-  message.blah();
+  const embed = {
+    "title": ":warning: This command is still in development and is not enabled currently.",
+    "color": yellow
+  };
+  message.channel.send({ embed });
 }
 
-//Dev commands: Normal users don't need them
+if(message.content === prefix + "partner?"){
+  if(message.guild.memberCount >= 300){
+    const embed = {
+      "title": "Is this server Partner Ready?",
+      "description": "This command will explain what a Partner is, and if the owner can partner the guild.",
+      "color": burple,
+      "footer": {
+        "icon_url": "message.guild.iconURL",
+        "text": "Command last updated Monday, August 28th, 2017"
+      },
+      "thumbnail": {
+        "url": "message.guild.iconURL"
+      },
+      "author": {
+        "name": "mesasge.guild.name",
+        "icon_url": "message.guild.iconURL"
+      },
+      "fields": [
+        {
+          "name": "What is a Discord Partner?",
+          "value": "[**Discord Partners**](http://discordapp.com/partners) are some of Discord's largest servers. They usually have applied for partnership, and gotten accepted. Sometimes you'll see that the owner of a partnered server will have a blue, figure-eight badge next to their username.",
+          "inline": true
+        },
+        {
+          "name": "Are there perks to being a Partner?",
+          "value": "**Yes! There are!** There are many perks:\n:star: You get a custom splash art of your choosing!\n:star: A custom discord.gg/ link!\n:star: VIP voice servers! \n:star: The owner of the server gets a Partner badge next to their name, free Discord Nitro, and Partner hoodie shipped to them from Discord!",
+          "inline": true
+        },
+        {
+          "name": "How do I get Partnership status?",
+          "value": "**Congratulations!** Your server has " + message.guild.memberCount + "members! The owner of the server should be able to [**apply**](http://discordapp.com/partners) and almost guarentee your acceptance. Go ahead and do that now, if you'd like. An email should come in a few weeks, telling you if you got accepted.",
+          "inline": true
+        }
+      ]
+    };
+    message.channel.send({ embed });
+  }
+  else {
+    const embed = {
+      "title": "Is this server Partner Ready?",
+      "description": "This command will explain what a Partner is, and if the owner can partner the guild.",
+      "color": burple,
+      "fields": [
+        {
+          "name": "What is a Discord Partner?",
+          "value": "[**Discord Partners**](http://discordapp.com/partners) are some of Discord's largest servers. They usually have applied for partnership, and gotten accepted. Sometimes you'll see that the owner of a partnered server will have a blue, figure-eight badge next to their username.",
+          "inline": true
+        },
+        {
+          "name": "Are there perks to being a Partner?",
+          "value": "**Yes! There are!** There are many perks:\n:star: You get a custom splash art of your choosing!\n:star: A custom discord.gg/ link!\n:star: VIP voice servers! \n:star: The owner of the server gets a Partner badge next to their name, free Discord Nitro, and Partner hoodie shipped to them from Discord!",
+          "inline": true
+        },
+        {
+          "name": "How do I get Partnership status?",
+          "value": "**Uh, well,** your server has " + message.guild.memberCount + " members. The owner of the server should only [**apply**](http://discordapp.com/partners) if the server has over 300 members. I'd wait until you get *at least* 300 members.",
+          "inline": true
+        }
+      ]
+    };
+    message.channel.send({ embed });
+  }
+}
+
+//sparkle command
+if(message.content.startsWith(prefix + "sparkle")){
+  if(message.author.username.size <= 27){
+    const embed = {
+      "title": ":x: Your username is too long!",
+      "description": "Please set a username that is less than 27 characters.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else {
+  if(message.content.substring(10) === ""){
+    message.member.setNickname("☆ ･*。" + message.author.username);
+    const embed = {
+      "title": ":white_check_mark: Sparkly Nickname Set",
+      "description": "Nickname set to ☆ ･*。" + message.author.username,
+      "color": green
+    };
+    message.channel.send({ embed });
+  }
+  //delete when you want to continue:
+  else {
+    const embed = {
+      "title": ":warning: This portion of the command is not enabled yet.",
+      "description": "Akii still has to work out a few more bugs. He'll enable it once he's got it all down.",
+      "color": yellow
+    };
+    message.channel.send({ embed });
+  }
+  /* else if(message.member.permissions.has("MANAGE_NICKNAMES")){
+    if(message.mentions.users.size > 1){
+      const embed = {
+        "title": ":x: You're mentioning too many people!",
+        "color": red
+      };
+      message.channel.send({ embed });
+    }
+    else if(message.mentions.users.size < 1){
+      const embed = {
+        "title": ":x: You didn't mention anyone!",
+        "color": red
+      };
+      message.channel.send({ embed });
+    }
+    else {
+      message.mentions.users.first().setNickname("☆ ･*。" + message.mentions.users.first().username);
+      const embed = {
+        "title": ":white_check_mark: Sparkly Nickname Set",
+        "description": message.mentions.users.first().username + "'s nickname has been set to ☆ ･*。" + message.mentions.users.first().username,
+        "color": green
+      };
+      message.channel.send({ embed });
+    }
+  }
+  else if(!message.member.permissions.has("MANAGE_NICKNAMES")){
+    const embed = {
+      "title": ":x: You do not have permission to use this command.",
+      "description": "Missing Permission: `Manage Nicknames`",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else {
+    const embed = {
+      "title": "...what",
+      "description": "Honestly, I have no clue what you just did. If you are seeing this message, **contact Akii.**",
+      "color": yellow
+    };
+    message.channel.send({ embed });
+  }
+  */
+}
+}
+
+/* //------------------ Dev commands ------------------\\ */
+
 if(message.content === (prefix + "green")){
   const embed = {
     "title": "3329330",
@@ -755,8 +889,18 @@ if(message.content === (prefix + "stop typing")){
   message.channel.stopTyping();
 }
 
+if(message.content === prefix + "cone-token"){
+  message.author.send("OwO");
+}
+
+if(message.channel === prefix + "find-invite"){
+  client.guilds.find("name", "LINE WEBTOON").id
+  .then(id => {client.channels.get(id).createInvite()
+  .then(invite => {message.channel.send(`${invite}`)})});
+}
+
+/* \\------------------ Dev commands ------------------// */
 });
 
-
 //Token
-client.login(":blobxd:");
+client.login("OwO");
