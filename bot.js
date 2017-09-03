@@ -899,9 +899,6 @@ if(message.channel === prefix + "find-invite"){
   .then(invite => {message.channel.send(`${invite}`)})});
 }
 
-//Testing my mobile commit service
-//Testing *another* mobile commit service
-
 
 /* \\------------------ Dev commands ------------------// */
 });
