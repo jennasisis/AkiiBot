@@ -9,6 +9,7 @@ var GQuotes = []
 var pingBanUsers = ["<@107599228900999168>"]
 var dadmode = 0
 var akiiID = "107599228900999168"
+var botBan = ["[Insert globally banned users here]"]
   //color variables
 var green = 3329330
 var red = 16711680
@@ -178,7 +179,7 @@ if (message.content === (prefix + 'about')){
   const embed = {
   "color": burple,
   "footer": {
-    "text": "About Menu"
+    "text": "About Menu | To find the legal, type \"a-legal\""
   },
   "fields": [
     {
@@ -189,6 +190,18 @@ if (message.content === (prefix + 'about')){
 };
 message.author.send({ embed });
 }
+
+//legal command: A command that makes this bot legal, according to the Developers ToS
+if(message.content === prefix + "legal"){
+  const embed = {
+    "title": "Legal Agreement:",
+    "description": "By usage of this bot, in any way, shape, or form, you, " + message.author.tag + ", hereby acknowledge that this bot has the permission to log data provided by the [Discord API](https://discordapp.com/developers/docs/intro). This includes user ids, message content, user roles, message edits, etc. \n\nIf you disagree with this legal agreement, feel free to contact the author of this bot, **Akii#2111**, or anyone on your guild/server with the power to kick this bot.",
+    "color": yellow
+  };
+  message.react("👌");
+  message.author.send({ embed });
+}
+
 //guildinfo command: Shows server info
   if (message.content === (prefix + "guildinfo")) {
     var guildCreatedAt = new Date(message.guild.createdTimestamp);
@@ -434,135 +447,107 @@ message.channel.send({ embed });
     }
 }
 
-//kick command: kicks a user
-if(message.content.startsWith(prefix + "kick")){
-  if(client.permissions.has("KICK_MEMBERS")){
-  if(message.mentions.users.size > 1){
-    const embed = {
-      "title": ":x: You are mentioning too many users.",
-      "color": red
-    };
-    message.channel.send({ embed });
-  }
-  else if(message.mentions.users.size < 1){
-    const embed = {
-      "title": ":x: You didn't mention anyone.",
-      "color": red
-    };
-    message.channel.send({ embed });
-  }
-  else {
-  if(message.member.permissions.has("KICK_MEMBERS") || message.author.id === akiiID){
-    message.mentions.members.first().kick();
-    const embed = {
-      "title": ":white_check_mark: User has been kicked.",
-      "color": green
-    };
-    message.channel.send({ embed });
-  }
-  else {
-    const embed = {
-      "title": ":x: You do not have permission to kick users.",
-      "description": "Missing Permission: `Kick Users`",
-      "color": red
-    };
-    message.channel.send({ embed });
-  }
-}
-  }
-  else {
-    const embed = {
-      "title": ":x: I do not have the required permissions!",
-      "description": "Missing Permission: `Kick Members`",
-      "color": red
-    };
-    message.channel.send({ embed });
-  }
-}
-//ban command: bans a user
+//ban command
 if(message.content.startsWith(prefix + "ban")){
-  if(client.permissions.has("BAN_MEMBERS")){
-  if(message.mentions.users.size > 1){
-    const embed = {
-      "title": ":x: You are mentioning too many users.",
-      "color": red
-    };
-    message.channel.send({ embed });
-  }
-  else if(message.mentions.users.size < 1){
-    const embed = {
-      "title": ":x: You didn't mention anyone.",
-      "color": red
-    };
-    message.channel.send({ embed });
+  if(message.guild.me.permissions.has("BAN_MEMBERS")){
+    if(message.member.permissions.has("BAN_MEMBERS")){
+      if(message.mentions.users.size > 1){
+        const embed = {
+          "title": ":x: You are mentioning too many people!",
+          "color": red
+        };
+        message.channel.send({ embed });
+      }
+      else if(message.mentions.users.size < 1){
+        const embed = {
+          "title": ":x: You didn't mention anyone.",
+          "color": red
+        };
+        message.channel.send({ embed });
+      }
+      else if(message.mentions.users.first().bannable){
+        message.mentions.users.first().ban();
+        const embed = {
+          "title": ":white_check_mark: User has been banned.",
+          "color": green
+        }
+      }
+      else {
+        const embed = {
+          "title": ":x: User could not be banned.",
+          "description": "Check my permissions, or check the user's permissions.",
+          "color": red
+        };
+        message.channel.send({ embed });
+      }
+    }
+    else {
+      const embed = {
+        "title": ":x: You do not have permission to use this command!",
+        "description": "Missing Permission: `Ban Members`",
+        "color": red
+      };
+      message.channel.send({ embed });
+    }
   }
   else {
-  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === akiiID){
-    message.mentions.members.first().ban();
     const embed = {
-      "title": ":white_check_mark: User has been banned.",
-      "color": green
-    };
-    message.channel.send({ embed });
-  }
-  else {
-    const embed = {
-      "title": ":x: You do not have permission to ban users.",
-      "description": "Missing Permission: `Ban Users`",
-      "color": red
-    };
-    message.channel.send({ embed });
-  }
-}
-  }
-  else {
-    const embed = {
-      "title": ":x: I do not have the required permissions!",
+      "title": ":x: I am missing the required permissions!",
       "description": "Missing Permission: `Ban Members`",
       "color": red
     };
     message.channel.send({ embed });
   }
 }
-//unban command: unbans a user
-if(message.content.startsWith(prefix + "unban")){
-  if(client.permissions.has("BAN_MEMBERS")){
-  if(message.mentions.users.size > 1){
-    const embed = {
-      "title": ":x: You are mentioning too many users.",
-      "color": red
-    };
-    message.channel.send({ embed });
-  }
-  else if(message.mentions.users.size < 1){
-    const embed = {
-      "title": ":x: You didn't mention anyone",
-      "color": red
-    };
-    message.channel.send({ embed });
+
+//kick command
+if(message.content.startsWith(prefix + "kick")){
+  if(message.guild.me.permissions.has("KICK_MEMBERS")){
+    if(message.member.permissions.has("KICK_MEMBERS")){
+      if(message.mentions.users.size > 1){
+        const embed = {
+          "title": ":x: You are mentioning too many people!",
+          "color": red
+        };
+        message.channel.send({ embed });
+      }
+      else if(message.mentions.users.size < 1){
+        const embed = {
+          "title": ":x: You didn't mention anyone.",
+          "color": red
+        };
+        message.channel.send({ embed });
+      }
+      else if(message.mentions.members.first().kickable){
+        message.mentions.members.first().kick();
+        const embed = {
+          "title": ":white_check_mark: User has been kicked.",
+          "color": green
+        };
+        message.channel.send({ embed });
+      }
+      else {
+        const embed = {
+          "title": ":x: User could not be kicked.",
+          "description": "Check my permissions, or check the user's permissions.",
+          "color": red
+        };
+        message.channel.send({ embed });
+      }
+    }
+    else {
+      const embed = {
+        "title": ":x: You do not have permission to use this command!",
+        "description": "Missing Permission: `Kick Members`",
+        "color": red
+      };
+      message.channel.send({ embed });
+    }
   }
   else {
-  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === akiiID){
-    message.guild.unban(message.content.substring(8));
     const embed = {
-      "title": ":white_check_mark: User has been unbanned.",
-      "color": green
-    };
-    message.channel.send({ embed });
-  }
-  else {
-    const embed = {
-      "title": ":x: You do not have permission to unban users.",
-      "color": red
-    };
-    message.channel.send({ embed });
-  }
-}
-  }
-  else {
-    const embed = {
-      "title": "I'm missing the required permissions!",
-      "description": "Missing Permission: `Ban Members`",
+      "title": ":x: I am missing the required permissions!",
+      "description": "Missing Permission: `Kick Members`",
       "color": red
     };
     message.channel.send({ embed });
@@ -571,12 +556,15 @@ if(message.content.startsWith(prefix + "unban")){
 
 //discord.gg/xx OR .gg/ --> [REMOVED]
 if(message.content.includes(".gg/")){
+  if(message.member.permissions.has("ADMINISTRATOR") || message.member.permissions.has("MANAGE_MESSAGES")) return;
+  else {
   message.delete();
   const embed = {
     "title": ":x: Do not advertise!",
     "color": red
   };
   message.channel.send({ embed }).then(thismessage => {thismessage.delete(4000);});
+}
 }
 //a-send command: Sends <string> to the channel
 if(message.content.startsWith(prefix + "send")){
@@ -666,33 +654,14 @@ if(message.content === prefix + "leave"){
   }
 }
 
-
-if(message.content.startsWith(prefix + "bot nitro")){
-  message.channel.send({embed: {
-  color: burple,
-  title: 'Bot "Nitro" vs. User Nitro',
-  description: 'This is to prove my friend, Gallium wrong, but also to show him my thinking.',
-  fields: [
-    {
-      name: 'User Nitro:',
-      value: ':white_check_mark: Gif Avatar\n:white_check_mark: Custom Emojis: The ability to have your emojis everywhere\n:white_check_mark: 50mb upload limit \(from 8mb\)\n:white_check_mark: Nitro Badge on user profile',
-      inline: true
-    },
-    {
-      name: 'Bot Nitro:',
-      value: ':x: Gif Avatar\n:asterisk: Custom Emojis as long as the bot is in the server.\n:x: 50mb upload limit \(from 8mb\)\n:x: Nitro Badge on user profile',
-      inline: true
-    }
-  ]
-}});
-}
-
+//This function is part of the a-eval command
 function clean(text) {
   if (typeof(text) === "string")
     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
   else
       return text;
 }
+  //this is the eval command
 if (message.content.startsWith(prefix + "eval")) {
   const args = message.content.split(" ").slice(1);
 if(message.author.id !== akiiID) return;
@@ -935,4 +904,4 @@ if(message.content === prefix + "find invite"){
 });
 
 //Token
-client.login("Tokens schmokens pffftttt");
+client.login("you fokin wish, m8");
