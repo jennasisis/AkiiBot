@@ -1,16 +1,11 @@
-//Requirements
+//Constants
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const sleep = require('system-sleep');
-const hastebin = require('hastebin-gen');
-const reverse = require('reverse-string');
-const Birthday = require("birthday");
-  //variables
 var GQuotes = []
 var pingBanUsers = ["<@107599228900999168>"]
 var dadmode = 0
 var akiiID = "107599228900999168"
-var botBan = ["[Insert globally banned users here]"]
   //color variables
 var green = 3329330
 var red = 16711680
@@ -20,6 +15,7 @@ var burple = 7506394
 //Boot Sequence
 client.on('ready', () => {
   console.log("Bot is online");
+  client.user.setGame("<<LOCAL VERSION>> | a-help");
   //a-help in " + client.guilds.size + " servers
 });
 client.on('error', () => {
@@ -96,7 +92,7 @@ Array.prototype.randomElement = function () {
 if (message.content.startsWith(prefix + 'storequote')) {
   var quote =(message.content.substring(13));
   const embed = {
-  "title": "Stored quote in position "  + [GQuotes.length] + ".",
+  "title": "Stored quote in position"  + [GQuotes.length] + ".",
   "color": burple
   };
   message.channel.send({ embed });
@@ -131,7 +127,7 @@ if(random & 1){
 if (message.content.startsWith(prefix + 'setgame')){
   if (message.author.id != akiiID){
     const embed = {
-    "title": ":x: You do not have permission to use this command.",
+    "title": ":x: **Ya dingus.** You don't have permission to use this command.",
     "color": red
   };
   message.channel.send({ embed });
@@ -158,7 +154,7 @@ message.channel.send({ embed });
 if (message.content.startsWith(prefix + 'kill')){
   if (message.author.id != akiiID){
     const embed = {
-    "title": ":x: You don't have permission to use this command.",
+    "title": ":x: **Ya dingus.** You don't have permission to use this command.",
     "color": red
   };
   message.channel.send({ embed });
@@ -180,30 +176,26 @@ if (message.content === (prefix + 'about')){
   const embed = {
   "color": burple,
   "footer": {
-    "text": "About Menu | To find the legal, type \"a-legal\""
+    "text": "About Menu"
   },
   "fields": [
     {
       "name": ":wave: **Hi there! I'm AkiiBot!** :smiley:",
-      "value": "\<\<Local Version\>\> \n\nThis bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **『 Akii 』#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing a-help`. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a [GitHub Issue](http://github.com/jennasisis/AkiiBot/issues)\n\nIf you'd like to join the support server, [use this link!](http://discord.gg/54fVgRw) \n\n**Thanks for using the bot!**"
+      "value": "\<\<Local Version\>\> \n\nThis bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **Akii#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing ``a-help``. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a [GitHub Issue](http://github.com/jennasisis/AkiiBot/issues)\n\nIf you'd like to join the support server, [use this link!](http://discord.gg/54fVgRw) \n\n**Thanks for using the bot!**"
     }
   ]
 };
 message.author.send({ embed });
 }
-
-//legal command: A command that makes this bot legal, according to the Developers ToS
-if(message.content === prefix + "legal"){
+//lockdown command: Adds the "lockdown" role to everyone on the server
+if (message.content.startsWith(prefix + "lockdown")){
   const embed = {
-    "title": "Legal Agreement:",
-    "description": "By usage of this bot, in any way, shape, or form, you, " + message.author.tag + ", hereby acknowledge that this bot has the permission to log data provided by the [Discord API](https://discordapp.com/developers/docs/intro). This includes user ids, message content, user roles, message edits, etc. \n\nIf you disagree with this legal agreement, feel free to contact the author of this bot, **Akii#2111**, or anyone on your guild/server with the power to kick this bot.",
-    "color": yellow
-  };
-  message.react("👌");
-  message.author.send({ embed });
-}
-
-//guildinfo command: Shows server info
+  "title": ":warning: This command is still in development and is not enabled currently.",
+  "color": yellow
+};
+message.channel.send({ embed });
+  }
+//serverinfo command: Shows server info
   if (message.content === (prefix + "guildinfo")) {
     var guildCreatedAt = new Date(message.guild.createdTimestamp);
     if (message.channel.type === "dm") {
@@ -242,7 +234,7 @@ message.channel.send({ embed });
           "name": "Channels:",
           "value": message.guild.channels.size + " channels",
           "inline": true
-         }, 
+         },
          {
            "name": "Region:",
            "value": message.guild.region,
@@ -257,7 +249,7 @@ message.channel.send({ embed });
            "name": "Emotes:",
            "value": message.guild.emojis.size + " emotes",
            "inline": true
-         } 
+         }
        ]
      };
     message.channel.send({ embed });
@@ -365,7 +357,7 @@ if(message.content === (prefix + "stats")){
   fields: [
     {
       name: 'Uptime:',
-      value: (Math.round(client.uptime / (1000 * 60 * 60))) + ":" + (Math.round(client.uptime / (1000 * 60)) % 60) + ":" + (Math.round(client.uptime / 1000) % 60),
+      value: (Math.round(client.uptime / (1000 * 60 * 60))) + " h, " + (Math.round(client.uptime / (1000 * 60)) % 60) + " m, " + (Math.round(client.uptime / 1000) % 60) + " s.",
       inline: true
     },
     {
@@ -380,6 +372,14 @@ if(message.content === (prefix + "stats")){
     }
   ]
 }});
+}
+//commend command: congratulates a user; defaults to nothing if no user is mentioned
+if (message.content === (prefix + 'commend')) {
+  const embed = {
+    "title": "Congratulations! :tada:",
+    "color": green
+  };
+  message.channel.send({ embed });
 }
 //created command: quick access as to when a user's account was created
   if(message.content.startsWith(prefix + "created")){
@@ -448,124 +448,117 @@ message.channel.send({ embed });
     }
 }
 
-//ban command
-if(message.content.startsWith(prefix + "ban")){
-  if(message.guild.me.permissions.has("BAN_MEMBERS")){
-    if(message.member.permissions.has("BAN_MEMBERS")){
-      if(message.mentions.users.size > 1){
-        const embed = {
-          "title": ":x: You are mentioning too many people!",
-          "color": red
-        };
-        message.channel.send({ embed });
-      }
-      else if(message.mentions.users.size < 1){
-        const embed = {
-          "title": ":x: You didn't mention anyone.",
-          "color": red
-        };
-        message.channel.send({ embed });
-      }
-      else if(message.mentions.users.first().bannable){
-        message.mentions.users.first().ban();
-        const embed = {
-          "title": ":white_check_mark: User has been banned.",
-          "color": green
-        }
-      }
-      else {
-        const embed = {
-          "title": ":x: User could not be banned.",
-          "description": "Check my permissions, or check the user's permissions.",
-          "color": red
-        };
-        message.channel.send({ embed });
-      }
-    }
-    else {
-      const embed = {
-        "title": ":x: You do not have permission to use this command!",
-        "description": "Missing Permission: `Ban Members`",
-        "color": red
-      };
-      message.channel.send({ embed });
-    }
+//kick command: kicks a user
+if(message.content.startsWith(prefix + "kick")){
+  if(message.mentions.users.size > 1){
+    const embed = {
+      "title": ":x: You are mentioning too many users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else if(message.mentions.users.size < 1){
+    const embed = {
+      "title": ":x: You didn't mention anyone.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else {
+  if(message.member.permissions.has("KICK_MEMBERS") || message.author.id === akiiID){
+    message.mentions.members.first().kick();
+    const embed = {
+      "title": ":white_check_mark: User has been kicked.",
+      "color": green
+    };
+    message.channel.send({ embed });
   }
   else {
     const embed = {
-      "title": ":x: I am missing the required permissions!",
-      "description": "Missing Permission: `Ban Members`",
+      "title": ":x: You do not have permission to kick users.",
       "color": red
     };
     message.channel.send({ embed });
   }
 }
-
-//kick command
-if(message.content.startsWith(prefix + "kick")){
-  if(message.guild.me.permissions.has("KICK_MEMBERS")){
-    if(message.member.permissions.has("KICK_MEMBERS")){
-      if(message.mentions.users.size > 1){
-        const embed = {
-          "title": ":x: You are mentioning too many people!",
-          "color": red
-        };
-        message.channel.send({ embed });
-      }
-      else if(message.mentions.users.size < 1){
-        const embed = {
-          "title": ":x: You didn't mention anyone.",
-          "color": red
-        };
-        message.channel.send({ embed });
-      }
-      else if(message.mentions.members.first().kickable){
-        message.mentions.members.first().kick();
-        const embed = {
-          "title": ":white_check_mark: User has been kicked.",
-          "color": green
-        };
-        message.channel.send({ embed });
-      }
-      else {
-        const embed = {
-          "title": ":x: User could not be kicked.",
-          "description": "Check my permissions, or check the user's permissions.",
-          "color": red
-        };
-        message.channel.send({ embed });
-      }
-    }
-    else {
-      const embed = {
-        "title": ":x: You do not have permission to use this command!",
-        "description": "Missing Permission: `Kick Members`",
-        "color": red
-      };
-      message.channel.send({ embed });
-    }
-  }
-  else {
+}
+//ban command: bans a user
+if(message.content.startsWith(prefix + "ban")){
+  if(message.mentions.users.size > 1){
     const embed = {
-      "title": ":x: I am missing the required permissions!",
-      "description": "Missing Permission: `Kick Members`",
+      "title": ":x: You are mentioning too many users.",
       "color": red
     };
     message.channel.send({ embed });
   }
+  else if(message.mentions.users.size < 1){
+    const embed = {
+      "title": ":x: You didn't mention anyone.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else {
+  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === akiiID){
+    message.mentions.members.first().ban();
+    const embed = {
+      "title": ":white_check_mark: User has been banned.",
+      "color": green
+    };
+    message.channel.send({ embed });
+  }
+  else {
+    const embed = {
+      "title": ":x: You do not have permission to ban users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+}
+}
+//unban OR pardon command: unbans a user
+if(message.content.startsWith(prefix + "unban")){
+  if(message.mentions.users.size > 1){
+    const embed = {
+      "title": ":x: You are mentioning too many users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else if(message.mentions.users.size < 1){
+    const embed = {
+      "title": ":x: You didn't mention anyone",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+  else {
+  if(message.member.permissions.has("BAN_MEMBERS") || message.author.id === akiiID){
+    message.guild.unban(message.mentions.users.first());
+    const embed = {
+      "title": ":white_check_mark: User has been unbanned.",
+      "color": green
+    };
+    message.channel.send({ embed });
+  }
+  else {
+    const embed = {
+      "title": ":x: You do not have permission to unban users.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+}
 }
 
 //discord.gg/xx OR .gg/ --> [REMOVED]
 if(message.content.includes(".gg/")){
-  if(message.member.permissions.has("ADMINISTRATOR") || message.member.permissions.has("MANAGE_MESSAGES")) return;
-  else {
   message.delete();
   const embed = {
     "title": ":x: Do not advertise!",
     "color": red
   };
   message.channel.send({ embed }).then(thismessage => {thismessage.delete(4000);});
-}
 }
 //a-send command: Sends <string> to the channel
 if(message.content.startsWith(prefix + "send")){
@@ -590,7 +583,7 @@ if(message.content.startsWith(prefix + "downloadinternet")){
 };
 message.channel.send({ embed });
   }
-  else if(message.content.substring(19) > 30){
+  else if(message.content.substring(19) > 500){
     message.channel.send({embed: {
   color: red,
   title: ':warning: You\'re downloading too much internet.'
@@ -617,7 +610,7 @@ message.channel.send({ embed });
 }
 //If dotposter, then delete and DM reminder message.
 if(message.content === "."){
-  wait(100);
+  wait(10000);
   message.delete();
   message.author.send({embed: {
   color: burple,
@@ -655,37 +648,55 @@ if(message.content === prefix + "leave"){
   }
 }
 
-//This function is part of the a-eval command
+
+if(message.content.startsWith(prefix + "bot nitro")){
+  message.channel.send({embed: {
+  color: burple,
+  title: 'Bot "Nitro" vs. User Nitro',
+  description: 'This is to prove Gallium wrong, but also to show him my thinking.',
+  fields: [
+    {
+      name: 'User Nitro:',
+      value: ':white_check_mark: Gif Avatar\n:white_check_mark: Custom Emojis: The ability to have your emojis everywhere\n:white_check_mark: 50mb upload limit \(from 8mb\)\n:white_check_mark: Nitro Badge on user profile',
+      inline: true
+    },
+    {
+      name: 'Bot Nitro:',
+      value: ':x: Gif Avatar\n:asterisk: Custom Emojis as long as the bot is in the server.\n:x: 50mb upload limit \(from 8mb\)\n:x: Nitro Badge on user profile',
+      inline: true
+    }
+  ]
+}});
+}
+
 function clean(text) {
   if (typeof(text) === "string")
     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
   else
       return text;
 }
-  //this is the eval command
-if (message.content.startsWith(prefix + "eval")) {
+if(message.content.startsWith(prefix + "eval")){
   const args = message.content.split(" ").slice(1);
-if(message.author.id !== akiiID) return;
-try {
-const code = args.join(" ");
-let evaled = eval(code);
+if(message.author.id !== akiiID){
+  const embed = {
+    "title": ":x: For security reasons, you do not have permission to use this command.",
+    "color": red
+  };
+  message.channel.send({ embed });
+} else {
+    try {
+      const code = args.join(" ");
+      let evaled = eval(code);
 
-if (typeof evaled !== "string")
-evaled = require("util").inspect(evaled);
-var evalOut = (clean(evaled))
-if (evalOut.length > 2000) {
-hastebin(evalOut, "js").then(r => {
-message.channel.send("Output larger than 2000 characters, posted to " + r + " ."); //https://hastebin.com/someurl.js
-}).catch(console.error);
-}
-else {
-message.channel.send("```xl\n" + evalOut + "\n```")
-}
-} catch (err) {
-message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
-}
-}
+      if (typeof evaled !== "string")
+        evaled = require("util").inspect(evaled);
 
+      message.channel.send(clean(evaled), {code:"xl"});
+    } catch (err) {
+      message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+    }
+}
+}
 //"This is memedog." --> Delete, ban.
 if(message.content.includes("This is memedog.")){
   message.delete();
@@ -708,17 +719,6 @@ if(message.content === prefix + "partner?"){
       "title": "Is this server Partner Ready?",
       "description": "This command will explain what a Partner is, and if the owner can partner the guild.",
       "color": burple,
-      "footer": {
-        "icon_url": "message.guild.iconURL",
-        "text": "Command last updated Monday, August 28th, 2017"
-      },
-      "thumbnail": {
-        "url": "message.guild.iconURL"
-      },
-      "author": {
-        "name": "mesasge.guild.name",
-        "icon_url": "message.guild.iconURL"
-      },
       "fields": [
         {
           "name": "What is a Discord Partner?",
@@ -786,16 +786,7 @@ if(message.content.startsWith(prefix + "sparkle")){
     };
     message.channel.send({ embed });
   }
-  //delete when you want to continue:
-  else {
-    const embed = {
-      "title": ":warning: This portion of the command is not enabled yet.",
-      "description": "This command *has* been fixed, it's just that Akii's dumb ass forgot to push the code he was working on to GitHub.",
-      "color": yellow
-    };
-    message.channel.send({ embed });
-  }
-  /* else if(message.member.permissions.has("MANAGE_NICKNAMES")){
+   else if(message.member.permissions.has("MANAGE_NICKNAMES")){
     if(message.mentions.users.size > 1){
       const embed = {
         "title": ":x: You're mentioning too many people!",
@@ -811,7 +802,7 @@ if(message.content.startsWith(prefix + "sparkle")){
       message.channel.send({ embed });
     }
     else {
-      message.mentions.users.first().setNickname("☆ ･*。" + message.mentions.users.first().username);
+      message.mentions.members.first().setNickname("☆ ･*。" + message.mentions.users.first().username);
       const embed = {
         "title": ":white_check_mark: Sparkly Nickname Set",
         "description": message.mentions.users.first().username + "'s nickname has been set to ☆ ･*。" + message.mentions.users.first().username,
@@ -836,37 +827,30 @@ if(message.content.startsWith(prefix + "sparkle")){
     };
     message.channel.send({ embed });
   }
-  */
 }
 }
 
-//reverse command
-if(message.content.startsWith(prefix + "reverse")){
-  if(message.content.substring(10) === ""){
-    message.channel.send("Please enter some text after the command.");
-  }
-  else {
-    message.channel.send(reverse(message.content.substring(10)));
-  }
+if(message.content === prefix + "test" && message.guild.id === "341248157226762240"){
+  message.channel.send(":white_check_mark:");
 }
 
-//birthday command | Oh boy this is gonna be a long one :blobsweats:
-if(message.content.startsWith(prefix + "birthday")){
-  if(message.content.substring(11) === "create "){
-    Birthday.insert({
-      "name": message.content.substring(29),
-      "born": message.content.substring(18, 29)
-    });
-  }
-  else if(message.content.substring(11) === "remove"){
-    //
-  }
-  else {
-    const embed = {
-      "title": ":warning: I couldn't understand.",
-      "description": "If you would like me to create a birthday, please type `a-birthday create`, followed by the date in YYYY/DD/MM and the name of the person.\nIf you would like me to remove a birthday, please type `a-birthday remove`, followed by the name of the person.\nEx: `a-birthday create 1990/01/01 Internet`\nEx: `a-birthday remove Internet`\n(Those `0`'s are very important when not using a double-digit number!)"
+if (message.content.startsWith(prefix + "prune")) {
+    if (!message.member.permissions.has("MANAGE_MESSAGES")){
+      const embed = {
+        "title": ":x: You do not have permission to use this command.",
+        "description": "Missing Permission: `Manage Messages`",
+        "color": red
+      };
+      message.channel.send({ embed });
     }
-  }
+    else {
+    message.channel.bulkDelete(message.content.substring(8))
+    const embed = {
+      "title": ":white_check_mark: Pruned **" + message.content.substring(8) + "** messages.",
+      "color": green
+    };
+    message.channel.send({ embed });
+    }
 }
 
 /* //------------------ Dev commands ------------------\\ */
@@ -904,20 +888,21 @@ if(message.content === (prefix + "start typing")){
   message.channel.startTyping();
 }
 if(message.content === (prefix + "stop typing")){
-  message.channel.send("I have stopped typing. It may take a while for the typing indicator to go away.")
   message.channel.stopTyping();
 }
 
-if(message.content === prefix + "find invite"){
-  message.channel.send(":x: This command is not enabled currently.");
-  /*client.guilds.find("name", "LINE WEBTOON").id
+if(message.content === prefix + "cone-token"){
+  message.author.send("OwO");
+}
+
+if(message.channel === prefix + "find-invite"){
+  client.guilds.find("name", "LINE WEBTOON").id
   .then(id => {client.channels.get(id).createInvite()
   .then(invite => {message.channel.send(`${invite}`)})});
-  */
 }
 
 /* \\------------------ Dev commands ------------------// */
 });
 
 //Token
-client.login("u thot");
+client.login("OwO");
