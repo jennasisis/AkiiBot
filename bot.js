@@ -1,9 +1,10 @@
-//Constants
+//Requirements
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const sleep = require('system-sleep');
 const hastebin = require('hastebin-gen');
 const reverse = require('reverse-string');
+const Birthday = require("birthday");
   //variables
 var GQuotes = []
 var pingBanUsers = ["<@107599228900999168>"]
@@ -839,10 +840,7 @@ if(message.content.startsWith(prefix + "sparkle")){
 }
 }
 
-/*if(message.content.startsWith("") && message.author.id === "263545199731408897"){
-  message.channel.send(reverse(message.content));
-}
-*/
+//reverse command
 if(message.content.startsWith(prefix + "reverse")){
   if(message.content.substring(10) === ""){
     message.channel.send("Please enter some text after the command.");
@@ -852,6 +850,24 @@ if(message.content.startsWith(prefix + "reverse")){
   }
 }
 
+//birthday command | Oh boy this is gonna be a long one :blobsweats:
+if(message.content.startsWith(prefix + "birthday")){
+  if(message.content.substring(11) === "create "){
+    Birthday.insert({
+      "name": message.content.substring(29),
+      "born": message.content.substring(18, 29)
+    });
+  }
+  else if(message.content.substring(11) === "remove"){
+    //
+  }
+  else {
+    const embed = {
+      "title": ":warning: I couldn't understand.",
+      "description": "If you would like me to create a birthday, please type `a-birthday create`, followed by the date in YYYY/DD/MM and the name of the person.\nIf you would like me to remove a birthday, please type `a-birthday remove`, followed by the name of the person.\nEx: `a-birthday create 1990/01/01 Internet`\nEx: `a-birthday remove Internet`\n(Those `0`'s are very important when not using a double-digit number!)"
+    }
+  }
+}
 
 /* //------------------ Dev commands ------------------\\ */
 
@@ -904,4 +920,4 @@ if(message.content === prefix + "find invite"){
 });
 
 //Token
-client.login("you fokin wish, m8");
+client.login("u thot");
