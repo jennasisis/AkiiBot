@@ -786,16 +786,7 @@ if(message.content.startsWith(prefix + "sparkle")){
     };
     message.channel.send({ embed });
   }
-  //delete when you want to continue:
-  else {
-    const embed = {
-      "title": ":warning: This portion of the command is not enabled yet.",
-      "description": "This command *has* been fixed, it's just that Akii's dumb ass forgot to push the code he was working on to GitHub.",
-      "color": yellow
-    };
-    message.channel.send({ embed });
-  }
-  /* else if(message.member.permissions.has("MANAGE_NICKNAMES")){
+   else if(message.member.permissions.has("MANAGE_NICKNAMES")){
     if(message.mentions.users.size > 1){
       const embed = {
         "title": ":x: You're mentioning too many people!",
@@ -811,7 +802,7 @@ if(message.content.startsWith(prefix + "sparkle")){
       message.channel.send({ embed });
     }
     else {
-      message.mentions.users.first().setNickname("☆ ･*。" + message.mentions.users.first().username);
+      message.mentions.members.first().setNickname("☆ ･*。" + message.mentions.users.first().username);
       const embed = {
         "title": ":white_check_mark: Sparkly Nickname Set",
         "description": message.mentions.users.first().username + "'s nickname has been set to ☆ ･*。" + message.mentions.users.first().username,
@@ -836,7 +827,6 @@ if(message.content.startsWith(prefix + "sparkle")){
     };
     message.channel.send({ embed });
   }
-  */
 }
 }
 
@@ -869,6 +859,26 @@ if(message.content.startsWith(prefix + "birthday")){
   }
 }
 
+//prune command
+if (message.content.startsWith(prefix + "prune")) {
+    if (!message.member.permissions.has("MANAGE_MESSAGES")){
+      const embed = {
+        "title": ":x: You do not have permission to use this command.",
+        "description": "Missing Permission: `Manage Messages`",
+        "color": red
+      };
+      message.channel.send({ embed });
+    }
+    else {
+    message.channel.bulkDelete(message.content.substring(8))
+    const embed = {
+      "title": ":white_check_mark: Pruned **" + message.content.substring(8) + "** messages.",
+      "color": green
+    };
+    message.channel.send({ embed });
+    }
+}  
+  
 /* //------------------ Dev commands ------------------\\ */
 
 if(message.content === (prefix + "green")){
@@ -906,14 +916,6 @@ if(message.content === (prefix + "start typing")){
 if(message.content === (prefix + "stop typing")){
   message.channel.send("I have stopped typing. It may take a while for the typing indicator to go away.")
   message.channel.stopTyping();
-}
-
-if(message.content === prefix + "find invite"){
-  message.channel.send(":x: This command is not enabled currently.");
-  /*client.guilds.find("name", "LINE WEBTOON").id
-  .then(id => {client.channels.get(id).createInvite()
-  .then(invite => {message.channel.send(`${invite}`)})});
-  */
 }
 
 /* \\------------------ Dev commands ------------------// */
