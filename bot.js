@@ -4,7 +4,6 @@ const client = new Discord.Client();
 const sleep = require('system-sleep');
 const hastebin = require('hastebin-gen');
 const reverse = require('reverse-string');
-const Birthday = require("birthday");
   //variables
 var GQuotes = []
 var pingBanUsers = ["<@107599228900999168>"]
@@ -19,11 +18,11 @@ var burple = 7506394
 
 //Boot Sequence
 client.on('ready', () => {
-  console.log("Bot is online");
-  //a-help in " + client.guilds.size + " servers
+  console.log("Bot is online | " + client.guilds.size + " servers");
 });
 client.on('error', () => {
   console.error("ERROR: BOT UNABLE TO START");
+  console.error(err);
 });
 //The Good Stuff
 var prefix = "a-"
@@ -81,7 +80,7 @@ else if (message.content.startsWith(prefix + 'pressF')) {
   "fields": [
     {
       "name": "**Commands:**",
-      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user"
+      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user\n\nTrust me, there are so many other commands on this bot. I just haven't updated the help command in forever :blobsweats:"
     }
   ]
 };
@@ -466,12 +465,13 @@ if(message.content.startsWith(prefix + "ban")){
         };
         message.channel.send({ embed });
       }
-      else if(message.mentions.users.first().bannable){
-        message.mentions.users.first().ban();
+      else if(message.mentions.members.first().bannable){
+        message.mentions.members.first().ban();
         const embed = {
           "title": ":white_check_mark: User has been banned.",
           "color": green
-        }
+        };
+        message.channel.send({ embed });
       }
       else {
         const embed = {
@@ -617,7 +617,7 @@ message.channel.send({ embed });
 }
 //If dotposter, then delete and DM reminder message.
 if(message.content === "."){
-  wait(100);
+  wait(10);
   message.delete();
   message.author.send({embed: {
   color: burple,
@@ -626,24 +626,13 @@ if(message.content === "."){
 }});
 }
 
-/*//If DM message that's not a command, send message to channel, and vice versa.
-if(message.channel.type === "dm" && !message.content.startsWith(prefix)){
-  client.channels.get('339595296193380365').send('**' + message.author.username + ':** '+ message.content);
-}
-if(message.content.startsWith(prefix + "dm")){
-  var idSize = message.mentions.users.first().id.length
-}
-
-if(message.content.startsWith(prefix + "dm")){
-  message.mentions.users.first().send("**" + message.author.username + ":** " + message.content.substring((9 + idSize)));
-}
-*/
+//leave command
 if(message.content === prefix + "leave"){
   if(message.author.id === akiiID){
     const embed = {
       "title": "Pssst!",
       "description": "Remember, `a-eval message.guild.leave();`!",
-      "color": burple
+      "color": yellow
     };
     message.author.send({ embed });
   } else {
@@ -702,72 +691,9 @@ if(message.content.startsWith(prefix + "suggestion")){
   message.channel.send({ embed });
 }
 
-if(message.content === prefix + "partner?"){
-  if(message.guild.memberCount >= 300){
-    const embed = {
-      "title": "Is this server Partner Ready?",
-      "description": "This command will explain what a Partner is, and if the owner can partner the guild.",
-      "color": burple,
-      "footer": {
-        "icon_url": "message.guild.iconURL",
-        "text": "Command last updated Monday, August 28th, 2017"
-      },
-      "thumbnail": {
-        "url": "message.guild.iconURL"
-      },
-      "author": {
-        "name": "mesasge.guild.name",
-        "icon_url": "message.guild.iconURL"
-      },
-      "fields": [
-        {
-          "name": "What is a Discord Partner?",
-          "value": "[**Discord Partners**](http://discordapp.com/partners) are some of Discord's largest servers. They usually have applied for partnership, and gotten accepted. Sometimes you'll see that the owner of a partnered server will have a blue, figure-eight badge next to their username.",
-          "inline": true
-        },
-        {
-          "name": "Are there perks to being a Partner?",
-          "value": "**Yes! There are!** There are many perks:\n:star: You get a custom splash art of your choosing!\n:star: A custom discord.gg/ link!\n:star: VIP voice servers! \n:star: The owner of the server gets a Partner badge next to their name, free Discord Nitro, and Partner hoodie shipped to them from Discord!",
-          "inline": true
-        },
-        {
-          "name": "How do I get Partnership status?",
-          "value": "**Congratulations!** Your server has " + message.guild.memberCount + "members! The owner of the server should be able to [**apply**](http://discordapp.com/partners) and almost guarentee your acceptance. Go ahead and do that now, if you'd like. An email should come in a few weeks, telling you if you got accepted.",
-          "inline": true
-        }
-      ]
-    };
-    message.channel.send({ embed });
-  }
-  else {
-    const embed = {
-      "title": "Is this server Partner Ready?",
-      "description": "This command will explain what a Partner is, and if the owner can partner the guild.",
-      "color": burple,
-      "fields": [
-        {
-          "name": "What is a Discord Partner?",
-          "value": "[**Discord Partners**](http://discordapp.com/partners) are some of Discord's largest servers. They usually have applied for partnership, and gotten accepted. Sometimes you'll see that the owner of a partnered server will have a blue, figure-eight badge next to their username.",
-          "inline": true
-        },
-        {
-          "name": "Are there perks to being a Partner?",
-          "value": "**Yes! There are!** There are many perks:\n:star: You get a custom splash art of your choosing!\n:star: A custom discord.gg/ link!\n:star: VIP voice servers! \n:star: The owner of the server gets a Partner badge next to their name, free Discord Nitro, and Partner hoodie shipped to them from Discord!",
-          "inline": true
-        },
-        {
-          "name": "How do I get Partnership status?",
-          "value": "**Uh, well,** your server has " + message.guild.memberCount + " members. The owner of the server should only [**apply**](http://discordapp.com/partners) if the server has over 300 members. I'd wait until you get *at least* 300 members.",
-          "inline": true
-        }
-      ]
-    };
-    message.channel.send({ embed });
-  }
-}
-
 //sparkle command
 if(message.content.startsWith(prefix + "sparkle")){
+  if(message.guild.me.permissions.has("MANAGE_NICKNAMES")){
   if(message.author.username.size <= 27){
     const embed = {
       "title": ":x: Your username is too long!",
@@ -802,7 +728,15 @@ if(message.content.startsWith(prefix + "sparkle")){
       message.channel.send({ embed });
     }
     else {
-      message.mentions.members.first().setNickname("☆ ･*。" + message.mentions.users.first().username);
+      message.mentions.members.first().setNickname("☆ ･*。" + message.mentions.users.first().username).catch((err) => {
+        const embed = {
+          "title": "Something went wrong...",
+          "description": "I couldn't set the nickname.\n" + err,
+          "color": yellow
+        };
+        message.channel.send({ embed });
+        console.log(err);
+      });
       const embed = {
         "title": ":white_check_mark: Sparkly Nickname Set",
         "description": message.mentions.users.first().username + "'s nickname has been set to ☆ ･*。" + message.mentions.users.first().username,
@@ -822,12 +756,21 @@ if(message.content.startsWith(prefix + "sparkle")){
   else {
     const embed = {
       "title": "...what",
-      "description": "Honestly, I have no clue what you just did. If you are seeing this message, **contact Akii.**",
+      "description": "Honestly, I have no clue what you just did. If you are seeing this message, **contact Akii#2111.**",
       "color": yellow
     };
     message.channel.send({ embed });
   }
 }
+  }
+  else {
+    const embed = {
+      "title": ":x: I'm missing the required permissions!",
+      "description": "Missing Permission: `Manage Nicknames`",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
 }
 
 //reverse command
@@ -840,28 +783,10 @@ if(message.content.startsWith(prefix + "reverse")){
   }
 }
 
-//birthday command | Oh boy this is gonna be a long one :blobsweats:
-if(message.content.startsWith(prefix + "birthday")){
-  if(message.content.substring(11) === "create "){
-    Birthday.insert({
-      "name": message.content.substring(29),
-      "born": message.content.substring(18, 29)
-    });
-  }
-  else if(message.content.substring(11) === "remove"){
-    //
-  }
-  else {
-    const embed = {
-      "title": ":warning: I couldn't understand.",
-      "description": "If you would like me to create a birthday, please type `a-birthday create`, followed by the date in YYYY/DD/MM and the name of the person.\nIf you would like me to remove a birthday, please type `a-birthday remove`, followed by the name of the person.\nEx: `a-birthday create 1990/01/01 Internet`\nEx: `a-birthday remove Internet`\n(Those `0`'s are very important when not using a double-digit number!)"
-    }
-  }
-}
-
 //prune command
 if (message.content.startsWith(prefix + "prune")) {
-    if (!message.member.permissions.has("MANAGE_MESSAGES")){
+  if(message.guild.me.permissions.has("MANAGE_MESSAGES")){  
+  if (!message.member.permissions.has("MANAGE_MESSAGES")){
       const embed = {
         "title": ":x: You do not have permission to use this command.",
         "description": "Missing Permission: `Manage Messages`",
@@ -870,14 +795,92 @@ if (message.content.startsWith(prefix + "prune")) {
       message.channel.send({ embed });
     }
     else {
-    message.channel.bulkDelete(message.content.substring(8))
+    message.channel.bulkDelete(message.content.substring(8)).catch((err) => {
+      const embed = {
+        "title": ":warning: Something went wrong...",
+        "description": err,
+        "color": yellow
+      };
+      message.channel.send({ embed });
+      console.log(err);
+    });
     const embed = {
       "title": ":white_check_mark: Pruned **" + message.content.substring(8) + "** messages.",
       "color": green
     };
     message.channel.send({ embed });
     }
-}  
+  }
+  else {
+    const embed = {
+      "title": ":x: I'm missing the required permissions!",
+      "description": "Missing Permission: `Manage Messages`",
+      "color": red
+    };
+    message.channel.send({ embed });
+  }
+}
+
+//info command
+if(message.content === prefix + "info"){
+  const embed = {
+    "color": 7506394,
+    "thumbnail": {
+      "url": "https://images-ext-2.discordapp.net/external/f4nE1yU--tBEddfXaDtXrZaqG3mnpZYZmAoxEZMLMWc/%3Fsize%3D128/https/cdn.discordapp.com/avatars/336521813926346763/a10184ba9883b1adb735fe642f1fd95e.jpg"
+    },
+    "author": {
+      "name": "AkiiBot",
+      "url": "https://discord.gg/54fVgRw",
+      "icon_url": "https://images-ext-2.discordapp.net/external/f4nE1yU--tBEddfXaDtXrZaqG3mnpZYZmAoxEZMLMWc/%3Fsize%3D128/https/cdn.discordapp.com/avatars/336521813926346763/a10184ba9883b1adb735fe642f1fd95e.jpg"
+    },
+    "fields": [
+      {
+        "name": "Version",
+        "value": "α-0.0.5",
+        "inline": true
+      },
+      {
+        "name": "Library",
+        "value": "[Discord.js](https://discordapp.com/invite/bRCvFy9)",
+        "inline": true
+      },
+      {
+        "name": "Creators",
+        "value": "Akii#2111\nGallium#1327",
+        "inline": true
+      },
+      {
+        "name": "Servers",
+        "value": message.client.guilds.size,
+        "inline": true
+      },
+      {
+        "name": "Users",
+        "value": message.client.users.size,
+        "inline": true
+      },
+      {
+        "name": "Invite",
+        "value": "[Click Here](https://discordapp.com/oauth2/authorize?permissions=2146954487&scope=bot&client_id=336521813926346763)",
+        "inline": true
+      },
+      {
+        "name": "Discord",
+        "value": "[`54fVgRw`](https://discord.gg/54fVgRw)",
+        "inline": true
+      },
+      {
+        "name": "Contributors",
+        "value": "`Gallium#1327` - Provided the template code for me to use, also a good friend of mine\n`Akii#2111` - Expanded on that code that Gallium gave me"
+      },
+      {
+        "name": "Honorable Mentions",
+        "value": "`OGNovuh#0014` - Added the Fight command, which I no longer use.. Sorry Novuh. Also cleaned up the template code a bit"
+      }
+    ]
+  };
+  message.channel.send({ embed });
+}
   
 /* //------------------ Dev commands ------------------\\ */
 
@@ -914,7 +917,7 @@ if(message.content === (prefix + "start typing")){
   message.channel.startTyping();
 }
 if(message.content === (prefix + "stop typing")){
-  message.channel.send("I have stopped typing. It may take a while for the typing indicator to go away.")
+  message.reply("I have stopped typing. It may take a while for the typing indicator to go away.")
   message.channel.stopTyping();
 }
 
@@ -922,4 +925,4 @@ if(message.content === (prefix + "stop typing")){
 });
 
 //Token
-client.login("u thot");
+client.login("since I don't feel like memeing today, just \"token\" should do fine :P");
