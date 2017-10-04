@@ -4,6 +4,7 @@ const client = new Discord.Client();
 const sleep = require('system-sleep');
 const hastebin = require('hastebin-gen');
 const reverse = require('reverse-string');
+const config = require('./config.json')
 
 //Boot Sequence
 client.on('ready', () => {
