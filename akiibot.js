@@ -1,15 +1,25 @@
+//checks to see if you have node 8.0.0 or higher
+if (process.version.slice(1).split(".")[0] < 8) throw new Error("Node 8.0.0 or higher is required. Update Node on your system.");
+
 //Requirements
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const sleep = require('system-sleep');
 const hastebin = require('hastebin-gen');
 const reverse = require('reverse-string');
-  //variables
+const config = require("./config.json");
+const fs = require("fs");
+const cheerio = require('cheerio');
+const snekfetch = require('snekfetch');
+const querystring = require('querystring');
+
+  //variables & stuff
 var GQuotes = []
 var pingBanUsers = ["<@107599228900999168>"]
 var dadmode = 0
-var akiiID = "107599228900999168"
 var botBan = ["[Insert globally banned users here]"]
+const shard = new Discord.ShardClientUtil(client);
+
   //color variables
 var green = 3329330
 var red = 16711680
@@ -22,12 +32,10 @@ client.on('ready', () => {
 });
 client.on('error', () => {
   console.error("ERROR: BOT UNABLE TO START");
-  console.error(err);
 });
 //The Good Stuff
-var prefix = "a-"
+const prefix = config.prefix
 client.on('message', message => {
-if (message.author.bot) {return};
 
 function randNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -36,6 +44,12 @@ var waitTime = ping
 function wait(n){
   sleep(((waitTime + n) / 2) * 100^1000);
 }
+
+//checks to save on processing power
+if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+const args = message.content.slice(prefix.length).trim().split(/ +/g);
+const command = args.shift().toLowerCase();
 
 //Ping command
 var ping = Math.round(client.ping);
@@ -128,14 +142,14 @@ if(random & 1){
 }
 //setgame command: This will set the "playing..." status of the bot
 if (message.content.startsWith(prefix + 'setgame')){
-  if (message.author.id != akiiID){
+  if (message.author.id != config.akiiID){
     const embed = {
     "title": ":x: You do not have permission to use this command.",
     "color": red
   };
   message.channel.send({ embed });
 }
-  else if(message.content.substring(10) === "" && message.author.id === akiiID){
+  else if(message.content.substring(10) === "" && message.author.id === config.akiiID){
     client.user.setGame("");
     const embed = {
       "title": ":white_check_mark: Game removed!",
@@ -155,7 +169,7 @@ message.channel.send({ embed });
 }
 //kill command: This will turn the bot off.
 if (message.content.startsWith(prefix + 'kill')){
-  if (message.author.id != akiiID){
+  if (message.author.id != config.akiiID){
     const embed = {
     "title": ":x: You don't have permission to use this command.",
     "color": red
@@ -264,7 +278,7 @@ message.channel.send({ embed });
 }
 //setname command: Sets the bot's name.
 if(message.content.startsWith(prefix + "setname")) {
-  if (message.author.id != akiiID) {
+  if (message.author.id != config.akiiID) {
     const embed = {
     "title": ":x: You do not have permission to use this command.",
     "color": red
@@ -628,7 +642,7 @@ if(message.content === "."){
 
 //leave command
 if(message.content === prefix + "leave"){
-  if(message.author.id === akiiID){
+  if(message.author.id === config.akiiID){
     const embed = {
       "title": "Pssst!",
       "description": "Remember, `a-eval message.guild.leave();`!",
@@ -654,7 +668,7 @@ function clean(text) {
   //this is the eval command
 if (message.content.startsWith(prefix + "eval")) {
   const args = message.content.split(" ").slice(1);
-if(message.author.id !== akiiID) return;
+if(message.author.id !== config.akiiID) return;
 try {
 const code = args.join(" ");
 let evaled = eval(code);
@@ -881,6 +895,33 @@ if(message.content === prefix + "info"){
   };
   message.channel.send({ embed });
 }
+
+if(message.content === prefix + "test"){
+  client.shard.fetchClientValues('guilds.size')
+  .then(results => {
+    message.channel.send(`${results.reduce((prev, val) => prev + val, 0)} total guilds`);
+  })
+  .catch(console.error);
+}
+
+if(message.content === prefix + "verify"){
+  if(message.author.id != config.akiiID){
+    const embed = {
+      "title": ":x: Sorry! You're not Akii.",
+      "color": red
+    };
+    message.channel.send({ embed });
+  } else {
+    const embed = {
+      "title": ":white_check_mark: Akii is indeed my owner!",
+      "description": "Now you try running `a-verify` and see what happens.",
+      "color": green
+    };
+    message.channel.send({ embed });
+  }
+}
+
+
   
 /* //------------------ Dev commands ------------------\\ */
 
@@ -921,8 +962,62 @@ if(message.content === (prefix + "stop typing")){
   message.channel.stopTyping();
 }
 
+if(message.content === prefix + "shard"){
+  message.channel.send("This server runs on shard " + shard.id + "/" + shard.count);
+}
+
+
+
 /* \\------------------ Dev commands ------------------// */
+
+
+/* //------------------ LINE commands ------------------\\ */
+
+if(message.content === prefix + "wine"){
+  if(message.author.id != config.akiiID){
+    const embed = {
+      "title": ":x: You aren't Jamesus :thinking:",
+      "color": red
+    };
+    message.channel.send({ embed });
+  } else {
+  const embed = {
+    "title": ":white_check_mark: Successfully turned :wine_glass: into :sweat_drops:.",
+    "color": green
+  };
+  message.channel.send({ embed });
+}
+}
+
+if(message.content === prefix + "water"){
+  if(message.author.id != config.akiiID){
+    const embed = {
+      "title": ":x: You aren't Jamesus :thinking:",
+      "color": red
+    };
+    message.channel.send({ embed });
+  } else {
+  const embed = {
+    "title": ":white_check_mark: Successfully turned :sweat_drops: into :wine_glass:.",
+    "color": green
+  };
+  message.channel.send({ embed });
+}
+}
+
+if(message.content === prefix + "eyebrows"){
+  if(message.author.id === "343133022834655232"){
+    const embed = {
+      "title": ":white_check_mark: Eyebrows successfully turned into jamestic jam",
+      "color": green
+    };
+    message.channel.send({ embed });
+  }
+}
+
+/* \\------------------ LINE commands ------------------// */
+
 });
 
 //Token
-client.login("since I don't feel like memeing today, just \"token\" should do fine :P");
+client.login(config.token);
