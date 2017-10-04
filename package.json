@@ -1,10 +1,16 @@
 {
   "name": "akiibot",
-  "version": "0.0.5",
-  "description": "A bot made by Gallium#1327, but also a bot used and designed just for Akii#2111's server's purposes, then further developed for public use.",
-  "main": "bot.js",
+  "version": "0.0.4",
+  "description": "A bot made by Gallium#1327, then forked, and further developed by Akii#2111.",
+  "main": "akiibot.js",
   "dependencies": {
-    "discord.js": "^11.1.0"
+    "birthday": "^1.2.6",
+    "cheerio": "^1.0.0-rc.2",
+    "discord.js": "^11.2.0",
+    "google": "^2.1.0",
+    "hastebin-gen": "^1.3.1",
+    "reverse-string": "0.0.6",
+    "system-sleep": "^1.3.5"
   },
   "devDependencies": {},
   "scripts": {
