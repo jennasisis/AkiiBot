@@ -4,17 +4,6 @@ const client = new Discord.Client();
 const sleep = require('system-sleep');
 const hastebin = require('hastebin-gen');
 const reverse = require('reverse-string');
-  //variables
-var GQuotes = []
-var pingBanUsers = ["<@107599228900999168>"]
-var dadmode = 0
-var akiiID = "107599228900999168"
-var botBan = ["[Insert globally banned users here]"]
-  //color variables
-var green = 3329330
-var red = 16711680
-var yellow = 16776960
-var burple = 7506394
 
 //Boot Sequence
 client.on('ready', () => {
@@ -25,7 +14,7 @@ client.on('error', () => {
   console.error(err);
 });
 //The Good Stuff
-var prefix = "a-"
+
 client.on('message', message => {
 if (message.author.bot) {return};
 
