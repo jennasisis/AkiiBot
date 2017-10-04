@@ -1,5 +1,5 @@
 //checks to see if you have node 8.0.0 or higher
-if (process.version.slice(1).split(".")[0] < 8) throw new Error("Node 8.0.0 or higher is required. Update Node on your system.");
+//if (process.version.slice(1).split(".")[0] < 8) throw new Error("Node 8.0.0 or higher is required. Update Node on your system.");
 
 //Requirements
 const Discord = require('discord.js');
@@ -7,11 +7,11 @@ const client = new Discord.Client();
 const sleep = require('system-sleep');
 const hastebin = require('hastebin-gen');
 const reverse = require('reverse-string');
-const config = require("./config.json");
 const fs = require("fs");
 const cheerio = require('cheerio');
 const snekfetch = require('snekfetch');
 const querystring = require('querystring');
+const config = require('./config.json');
 
   //variables & stuff
 var GQuotes = []
@@ -34,7 +34,7 @@ client.on('error', () => {
   console.error("ERROR: BOT UNABLE TO START");
 });
 //The Good Stuff
-const prefix = config.prefix
+const prefix = "a-"
 client.on('message', message => {
 
 function randNum(min, max) {
@@ -158,7 +158,7 @@ if (message.content.startsWith(prefix + 'setgame')){
     message.channel.send({ embed });
   }
   else {
-    game = message.content.substring(10);
+    var game = message.content.substring(10);
     client.user.setGame(game);
     const embed = {
   "title": ":white_check_mark: New game set!",
@@ -896,14 +896,6 @@ if(message.content === prefix + "info"){
   message.channel.send({ embed });
 }
 
-if(message.content === prefix + "test"){
-  client.shard.fetchClientValues('guilds.size')
-  .then(results => {
-    message.channel.send(`${results.reduce((prev, val) => prev + val, 0)} total guilds`);
-  })
-  .catch(console.error);
-}
-
 if(message.content === prefix + "verify"){
   if(message.author.id != config.akiiID){
     const embed = {
@@ -972,48 +964,6 @@ if(message.content === prefix + "shard"){
 
 
 /* //------------------ LINE commands ------------------\\ */
-
-if(message.content === prefix + "wine"){
-  if(message.author.id != config.akiiID){
-    const embed = {
-      "title": ":x: You aren't Jamesus :thinking:",
-      "color": red
-    };
-    message.channel.send({ embed });
-  } else {
-  const embed = {
-    "title": ":white_check_mark: Successfully turned :wine_glass: into :sweat_drops:.",
-    "color": green
-  };
-  message.channel.send({ embed });
-}
-}
-
-if(message.content === prefix + "water"){
-  if(message.author.id != config.akiiID){
-    const embed = {
-      "title": ":x: You aren't Jamesus :thinking:",
-      "color": red
-    };
-    message.channel.send({ embed });
-  } else {
-  const embed = {
-    "title": ":white_check_mark: Successfully turned :sweat_drops: into :wine_glass:.",
-    "color": green
-  };
-  message.channel.send({ embed });
-}
-}
-
-if(message.content === prefix + "eyebrows"){
-  if(message.author.id === "343133022834655232"){
-    const embed = {
-      "title": ":white_check_mark: Eyebrows successfully turned into jamestic jam",
-      "color": green
-    };
-    message.channel.send({ embed });
-  }
-}
 
 /* \\------------------ LINE commands ------------------// */
 
