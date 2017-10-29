@@ -34,8 +34,9 @@ client.on('error', () => {
   console.error("ERROR: BOT UNABLE TO START");
 });
 //The Good Stuff
-const prefix = "a-"
+const prefix = config.prefix
 client.on('message', message => {
+  client.user.setGame(`${prefix}help to see commands | Shard ${shard.id}/${shard.count}`);
 
 function randNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -65,7 +66,7 @@ message.channel.send({ embed });
 if(message.content.startsWith("<@323213552695508993>")){
   const embed = {
     "title": ":x: Sorry! That's not my prefix!",
-    "description": "Do \"a-help\" to find my commands!",
+    "description": `Sorry! That's not my prefix! Do \`${prefix}help\` to see my commands!`,
     "color": red
   };
   message.channel.send({ embed });
@@ -73,11 +74,7 @@ if(message.content.startsWith("<@323213552695508993>")){
 
 //PressF Command
   if (message.content === (prefix + 'pressF')) {
-    const embed = {
-      "title": "🇫",
-      "color": burple
-    };
-    message.channel.send({ embed });
+    message.channel.send(":regional_indicator_f:");
 }
 else if (message.content.startsWith(prefix + 'pressF')) {
   message.mentions.users.first().lastMessage.react("🇫");
@@ -85,22 +82,19 @@ else if (message.content.startsWith(prefix + 'pressF')) {
 //Help command
   if (message.content === (prefix + 'help')) {
     message.react('👌');
-      const embed = {
-  "title": "***Welcome back.***",
-  "color": burple,
-  "footer": {
-    "text": "Help Menu"
-  },
-  "fields": [
-    {
-      "name": "**Commands:**",
-      "value": "``-`` a-help: This, of course\n``-`` a-ping: Shows your ping\n``-`` a-pressF: Pays Respects to a user, defaults to you if no user is mentioned\n``-`` a-quote: Pull a quote\n``-`` a-storequote: Store a quote to pull later\n``-`` a-coin: Flips a coin\n``-`` a-about: DMs you with information on the bot\n``-`` a-serverinfo: Gives you information on the server\n``-`` a-bean: memey ban command **COMMAND INDEV** \n``-`` a-shame: Shames a mentioned user\n\nTrust me, there are so many other commands on this bot. I just haven't updated the help command in forever :blobsweats:"
-    }
-  ]
-};
-message.author.send({ embed });
+    message.author.send(new Discord.RichEmbed()
+      .setAuthor(message.author.tag, message.author.avatarURL)
+      .setColor(burple)
+      .setFooter("Help Menu | <n> = number, <@> = mention,", client.user.avatarURL)
+      .setThumbnail(client.user.avatarURL)
+      .setTitle("Welcome back, " + message.author.username)
+      .setDescription(`To run a command, type \`${prefix}\` followed by the following commands:`)
+      .addField("General Commands:", "`help`: This, of course\n`info`: Information on the bot\n`quote`: Shows a global quote stored in the quotes array\n`storequote <text>`: Stores a quote to the global quote array\n`coin`: Flips a coin\n`guildinfo`: Shows information about the guild\n`send <text>`: Sends <text> and deletes your message", true)
+      .addField("Fun Commands:", "`bean <@>`: Beans a user\n`shame <@>`: Shames a user\n`dadmode <on/off>`: Turns Dad mode on/off\n`sparkle`: Sets your nickname to `☆ ･*。" + message.author.username + "`\n`downloadram <n>`: Downloads RAM for your computer\n`downloadinternet`: Downloads Internet for your computer\n`reverse <text>`: <txet> ruoy sesreveR", true)
+      .addField("Utility Commands:", "`ping`: Pong! :ping_pong:\n`stats`: Shows stats of the bot\n`created`: Quick access to see when an account was created\n`suggestion`: Sends a suggestion to Akii\n`shard`: Shows what shard the bot is on", true)
+      .addField("Moderator Commands:", "`ban <@>`: Bans a user [Requires `Ban Members`]\n`kick <@>`: Kicks a user [Requires `Kick Members`]\n`prune <n>`: Prunes a number of messages\n`sparkle <@>`: Sparkle-ify another user's nickname [Requires `Manage Nicknames`]", true)
+    );
 }
-//where does this belong?
 Array.prototype.randomElement = function () {
     return GQuotes[Math.floor(Math.random() * GQuotes.length)]
 }
@@ -198,7 +192,7 @@ if (message.content === (prefix + 'about')){
   "fields": [
     {
       "name": ":wave: **Hi there! I'm AkiiBot!** :smiley:",
-      "value": "\<\<Local Version\>\> \n\nThis bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **『 Akii 』#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing a-help`. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a [GitHub Issue](http://github.com/jennasisis/AkiiBot/issues)\n\nIf you'd like to join the support server, [use this link!](http://discord.gg/54fVgRw) \n\n**Thanks for using the bot!**"
+      "value": "This bot was made by **Gallium#1327**, hence why I used to be named \"GalliumBot!\" It was further developed by **『 Akii 』#2111**, just so that it would fit what his server needed. \n\nYou can find all the commands for this bot by typing a-help`. **Remember, this bot is still in development.** So most of its features are still buggy. If you encounter any problems, please feel free to contact Gallium or Akii, or open up a [GitHub Issue](http://github.com/jennasisis/AkiiBot/issues)\n\nIf you'd like to join the support server, [use this link!](http://discord.gg/54fVgRw) \n\n**Thanks for using the bot!**"
     }
   ]
 };
@@ -339,7 +333,7 @@ if(message.content.startsWith(prefix + "bean")){
     message.channel.send({ embed });
   }
 }
-//a-dadmode command: "Hi <string>, I'm Dad!"
+//dadmode command: "Hi <string>, I'm Dad!"
 if (message.content.startsWith(prefix + "dadmode")) {
   if (message.content.substring(10) === "off") {
   dadmode = 0;
@@ -372,13 +366,18 @@ if (message.content.startsWith("I'm") && dadmode == "1") {
 message.channel.send({ embed });
 }
 //stats command: gives info on the stats of the bot
+var hours = (Math.round(client.uptime / (1000 * 60 * 60)))
+var days = (Math.floor(hours / 24)) 
+var finHours = (hours - days * 24) 
+var minutes = (Math.round(client.uptime / (1000 * 60)) % 60)
+var seconds = (Math.round(client.uptime / 1000) % 60)
 if(message.content === (prefix + "stats")){
   message.channel.send({embed: {
   color: burple,
   fields: [
     {
       name: 'Uptime:',
-      value: (Math.round(client.uptime / (1000 * 60 * 60))) + ":" + (Math.round(client.uptime / (1000 * 60)) % 60) + ":" + (Math.round(client.uptime / 1000) % 60),
+      value: (days + ":" + finHours + ":" + minutes + ":" + seconds),
       inline: true
     },
     {
@@ -395,6 +394,7 @@ if(message.content === (prefix + "stats")){
 }});
 }
 //created command: quick access as to when a user's account was created
+  
   if(message.content.startsWith(prefix + "created")){
     if(message.mentions.users.size < 1){
       const embed = {
@@ -689,13 +689,6 @@ message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
 }
 }
 
-//"This is memedog." --> Delete, ban.
-if(message.content.includes("This is memedog.")){
-  message.delete();
-}
-if(message.content.includes("look out for a user by")){
-  message.delete();
-}
 //suggestion command: DM's me with a bot suggestion
 if(message.content.startsWith(prefix + "suggestion")){
   const embed = {
@@ -850,12 +843,12 @@ if(message.content === prefix + "info"){
     "fields": [
       {
         "name": "Version",
-        "value": "α-0.0.5",
+        "value": "α-0.0.7",
         "inline": true
       },
       {
         "name": "Library",
-        "value": "[Discord.js](https://discordapp.com/invite/bRCvFy9)",
+        "value": "[Discord.js](http://discord.js.org)",
         "inline": true
       },
       {
@@ -913,7 +906,6 @@ if(message.content === prefix + "verify"){
   }
 }
 
-
   
 /* //------------------ Dev commands ------------------\\ */
 
@@ -962,10 +954,6 @@ if(message.content === prefix + "shard"){
 
 /* \\------------------ Dev commands ------------------// */
 
-
-/* //------------------ LINE commands ------------------\\ */
-
-/* \\------------------ LINE commands ------------------// */
 
 });
 
