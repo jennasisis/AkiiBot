@@ -95,28 +95,6 @@ else if (message.content.startsWith(prefix + 'pressF')) {
       .addField("Moderator Commands:", "`ban <@>`: Bans a user [Requires `Ban Members`]\n`kick <@>`: Kicks a user [Requires `Kick Members`]\n`prune <n>`: Prunes a number of messages\n`sparkle <@>`: Sparkle-ify another user's nickname [Requires `Manage Nicknames`]", true)
     );
 }
-Array.prototype.randomElement = function () {
-    return GQuotes[Math.floor(Math.random() * GQuotes.length)]
-}
-//Quote commands
-  //storequote command: stores a string to "GQuotes"
-if (message.content.startsWith(prefix + 'storequote')) {
-  var quote =(message.content.substring(13));
-  const embed = {
-  "title": "Stored quote in position "  + [GQuotes.length] + ".",
-  "color": burple
-  };
-  message.channel.send({ embed });
-GQuotes.push(quote);
-}
-  //quote command: pulls a random quote from "GQuotes"
-if (message.content === (prefix + 'quote')) {
-  const embed = {
-  "title": GQuotes.randomElement(),
-  "color": burple
-  };
-  message.channel.send({ embed });
-}
 //Coin command
 if (message.content === (prefix + 'coin')) {
 var random = Math.floor((Math.random() * 10) + 1);
