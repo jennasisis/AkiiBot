@@ -1,4 +1,6 @@
 # AkiiBot
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/jennasisis/AkiiBot.svg)](https://greenkeeper.io/)
 A Discord bot for fun, moderation, and probably maybe some other stuff I dunno.
 
 Hi, I'm Samir, or Akii as some of you know me. I do things. I'm also making a bot.
