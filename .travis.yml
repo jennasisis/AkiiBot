@@ -1,5 +1,6 @@
 langauge: node_js
 node_js: node
+sudo: true
 install: 
 - npm i -g npm
 - npm i
